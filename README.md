@@ -1,2 +1,14 @@
-# cloud-design
-Личный кабинет платформы Cloud Design
+# Cloud Design
+###### Личный кабинет платформы Cloud Design
+
+##### Project setup
+`npm install`
+
+##### Compiles and hot-reloads for development
+`npm run serve`
+
+##### Compiles and minifies for production
+`npm run build`
+
+##### Run tests
+`npm run test`

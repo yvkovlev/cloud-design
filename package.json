@@ -1,0 +1,96 @@
+{
+  "name": "cloud-design",
+  "version": "0.0.1",
+  "description": "Cloud Design Platform",
+  "main": "src/index.jsx",
+  "browserslist": [
+    "defaults"
+  ],
+  "scripts": {
+    "build": "cross-env NODE_ENV=production node server.js",
+    "serve": "cross-env NODE_ENV=development node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yvkovlev/cloud-design.git"
+  },
+  "author": "Denis Yakovlev, Alex Gabitashvili",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yvkovlev/cloud-design/issues"
+  },
+  "homepage": "https://github.com/yvkovlev/cloud-design#readme",
+  "babel": {
+    "presets": [
+      "@babel/env",
+      "@babel/react"
+    ]
+  },
+  "dependencies": {
+    "@babel/core": "7.11.0",
+    "@babel/preset-env": "7.11.0",
+    "@babel/preset-react": "7.10.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-regular-svg-icons": "^5.14.0",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "axios": "0.21.0",
+    "cross-env": "7.0.2",
+    "lodash": "4.17.20",
+    "moment": "2.27.0",
+    "prop-types": "15.7.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-loading-skeleton": "^2.1.1",
+    "react-redux": "7.2.2",
+    "react-router-dom": "5.2.0",
+    "react-slick": "^0.27.9",
+    "redux": "4.0.5",
+    "redux-thunk": "2.3.0",
+    "stylelint-scss": "^3.18.0",
+    "webpack": "4.44.1",
+    "webpack-cli": "3.3.12"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.12.1",
+    "@types/html-webpack-plugin": "^3.2.3",
+    "@types/react": "^16.9.44",
+    "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "3.7.1",
+    "@typescript-eslint/parser": "3.7.1",
+    "autoprefixer": "9.8.6",
+    "babel-loader": "8.1.0",
+    "chalk": "4.1.0",
+    "clean-webpack-plugin": "3.0.0",
+    "copy-webpack-plugin": "^6.0.3",
+    "css-loader": "4.2.0",
+    "cssnano-webpack-plugin": "^1.0.3",
+    "eslint": "7.6.0",
+    "eslint-config-airbnb": "18.2.0",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-react": "7.20.5",
+    "eslint-plugin-react-hooks": "4.0.8",
+    "file-loader": "6.0.0",
+    "html-webpack-plugin": "4.3.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "modern-css-reset": "^1.1.1",
+    "moment-locales-webpack-plugin": "^1.2.0",
+    "postcss-flexbugs-fixes": "4.2.1",
+    "postcss-loader": "3.0.0",
+    "postcss-modules": "3.2.0",
+    "postcss-modules-values": "3.0.0",
+    "progress-bar-webpack-plugin": "2.1.0",
+    "redux-devtools-extension": "2.13.8",
+    "sass": "1.26.10",
+    "sass-loader": "9.0.2",
+    "style-loader": "1.2.1",
+    "stylelint": "^13.7.1",
+    "stylelint-config-standard": "^20.0.0",
+    "ts-loader": "8.0.1",
+    "typescript": "3.9.7",
+    "typescript-plugin-css-modules": "2.4.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

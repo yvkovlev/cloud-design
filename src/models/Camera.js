@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const CameraSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        unique: true
-    },
+    _id: Number,
     camera_name: String,
     minutes: Number,
     project_id: Number

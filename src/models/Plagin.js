@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const PlaginSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        unique: true
-    },
+    _id: Number,
     plagin_name: String,
     project_id: Number
 });

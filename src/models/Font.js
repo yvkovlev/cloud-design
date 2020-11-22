@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const FontSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        unique: true
-    },
+    _id: Number,
     font_name: String,
     project_id: Number
 });

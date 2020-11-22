@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const RenderUtilitySchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        unique: true
-    },
+    _id: Number,
     renderutility_name: String,
     project_id: Number
 });

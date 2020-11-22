@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const BalanceAddingSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        unique: true
-    },
+    _id: Number,
     date: Date,
     value: Number,
     b_id: Number,

@@ -7,8 +7,8 @@
     "defaults"
   ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production node server.js",
-    "serve": "cross-env NODE_ENV=development node server.js",
+    "build": "cross-env NODE_ENV=production node app.js",
+    "serve": "cross-env NODE_ENV=development node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,12 +21,6 @@
     "url": "https://github.com/yvkovlev/cloud-design/issues"
   },
   "homepage": "https://github.com/yvkovlev/cloud-design#readme",
-  "babel": {
-    "presets": [
-      "@babel/env",
-      "@babel/react"
-    ]
-  },
   "dependencies": {
     "@babel/core": "7.11.0",
     "@babel/preset-env": "7.11.0",
@@ -36,9 +30,15 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "axios": "0.21.0",
+    "body-parser": "^1.19.0",
     "cross-env": "7.0.2",
+    "express": "^4.17.1",
     "lodash": "4.17.20",
     "moment": "2.27.0",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.10.15",
+    "nodemon": "^2.0.6",
+    "npm": "^6.14.9",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -91,6 +91,7 @@
     "ts-loader": "8.0.1",
     "typescript": "3.9.7",
     "typescript-plugin-css-modules": "2.4.0",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-hot-middleware": "^2.25.0"
   }
 }

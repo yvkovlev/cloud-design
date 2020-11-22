@@ -3,12 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import dictionary from "@utils/dictionary";
 
-import {
-  getDateData,
-} from '../../store/action-creator';
+import { getDateData } from '../../store/action-creator';
 
 const Projects = () => {
-
   const dispatch = useDispatch();
   const date = useSelector((state) => state.date);
 
@@ -26,7 +23,7 @@ const Projects = () => {
 
   return (
     <main className="main">
-      <div>Hello world!</div>
+      <div>Hello world322!</div>
     </main>
   );
 };

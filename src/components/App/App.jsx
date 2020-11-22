@@ -20,11 +20,8 @@ const App = () => {
         <Header />
       </div>
       <Switch>
-        <Route path="/projects">
-          <Projects />
-        </Route>
         <Route path="/">
-          <Redirect to="/projects" />
+          <Projects />
         </Route>
       </Switch>
       <Footer />

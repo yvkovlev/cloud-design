@@ -8,6 +8,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const CopyPlugin = require('copy-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const webpack = require('webpack');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const hash = isDevelopment ? '' : '-[contenthash:8]';
@@ -25,17 +26,14 @@ const PATH = {
 module.exports = {
     mode: isDevelopment ? 'development' : 'production',
     context: __dirname,
-    entry: './src/index.jsx',
+    entry: [
+        'webpack-hot-middleware/client?reload=true',
+        './src/index.jsx',
+    ],
     output: {
         filename: `main${hash}.js`,
         path: PATH.DIST,
-    },
-    devServer: {
-        contentBase: PATH.DIST,
-        compress: false,
-        writeToDisk: true,
-        hot: true,
-        historyApiFallback: true,
+        publicPath: '/',
     },
     resolve: {
         extensions: ['.jsx', '.js'],
@@ -146,6 +144,8 @@ module.exports = {
         new MomentLocalesPlugin({
             localesToKeep: ['es-us', 'ru'],
         }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
     ],
     optimization: {
         minimizer: [

@@ -23,7 +23,13 @@ const Projects = () => {
 
   return (
     <main className="main">
-      <div>Hello world322!</div>
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <h1>Hello world!</h1>
+          </div>
+        </div>
+      </div>
     </main>
   );
 };

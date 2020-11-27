@@ -8,6 +8,7 @@ import Header from '../../layouts/Header/Header';
 import Footer from '../../layouts/Footer/Footer';
 import Projects from '../../pages/Projects/Projects';
 import SignUp from '../../pages/SignUp/SignUp';
+import SignIn from '../../pages/SignIn/SignIn';
 
 import styles from './App.module.scss';
 
@@ -24,6 +25,9 @@ const App = () => {
         </Route>
         <Route path="/sign-up">
           <SignUp />
+        </Route>
+        <Route path="/sign-in">
+          <SignIn />
         </Route>
       </Switch>
       <Footer />

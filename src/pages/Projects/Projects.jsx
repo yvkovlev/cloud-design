@@ -2,25 +2,74 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import dictionary from '@utils/dictionary';
+import { getProjectStatus } from '@utils/functions';
 
 import { getDateData } from '../../store/action-creator';
 
 const projects = [
   {
-    project_id: 0,
-    project_name: '',
-    link_to_archive: '',
-    program: '',
-    fonts: [],
-    frame_start: '',
-    frame_end: '',
-    output_format: '',
-    output_width: '',
-    output_height: '',
-    comment: '',
-    start_date: '',
-    end_date: '',
-    status_id: 0,
+    project_id: 4,
+    project_name: 'Интерьер ванной',
+    link_to_archive: '#',
+    program: '3Ds Max',
+    fonts: ['PT Sans', 'Open Sans'],
+    frame_start: '00:00:00',
+    frame_end: '00:01:00',
+    output_format: 'JPG',
+    output_width: '1920',
+    output_height: '1080',
+    comment: 'Комментарий к проекту',
+    start_date: new Date(),
+    end_date: new Date(),
+    status_id: 2,
+  },
+  {
+    project_id: 3,
+    project_name: 'Интерьер спальни',
+    link_to_archive: null,
+    program: '3Ds Max',
+    fonts: ['PT Sans', 'Open Sans'],
+    frame_start: '00:00:00',
+    frame_end: '00:01:00',
+    output_format: 'JPG',
+    output_width: '1920',
+    output_height: '1080',
+    comment: 'Комментарий к проекту',
+    start_date: new Date(),
+    end_date: new Date(),
+    status_id: 3,
+  },
+  {
+    project_id: 2,
+    project_name: 'Интерьер спальни',
+    link_to_archive: '#',
+    program: '3Ds Max',
+    fonts: ['PT Sans', 'Open Sans'],
+    frame_start: '00:00:00',
+    frame_end: '00:01:00',
+    output_format: 'JPG',
+    output_width: '1920',
+    output_height: '1080',
+    comment: 'Комментарий к проекту',
+    start_date: new Date(),
+    end_date: new Date(),
+    status_id: 2,
+  },
+  {
+    project_id: 1,
+    project_name: 'Интерьер кухни',
+    link_to_archive: '#',
+    program: '3Ds Max',
+    fonts: ['PT Sans', 'Open Sans'],
+    frame_start: '00:00:00',
+    frame_end: '00:01:00',
+    output_format: 'JPG',
+    output_width: '1920',
+    output_height: '1080',
+    comment: 'Комментарий к проекту',
+    start_date: new Date(),
+    end_date: new Date(),
+    status_id: 1,
   },
 ];
 
@@ -71,7 +120,7 @@ const Projects = () => {
             </div>
             <div className="card">
               <div className="card-body">
-                <div className="table-responsive-md">
+                <div className="table-responsive">
                   <table className="table">
                     <thead>
                       <tr>
@@ -85,45 +134,25 @@ const Projects = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                      <td>3</td>
-                      <td>Интерьер спальни</td>
-                      <td>3Ds Max</td>
-                      <td>JPG</td>
-                      <td>1920x1080</td>
-                      <td>
-                        <span className="badge badge-pill badge-danger">Ошибка обработки</span>
-                      </td>
-                      <td>
-
-                      </td>
-                    </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Интерьер гостинной</td>
-                        <td>3Ds Max</td>
-                        <td>JPG</td>
-                        <td>1920x1080</td>
-                        <td>
-                          <span className="badge badge-pill badge-warning">В процессе</span>
-                        </td>
-                        <td>
-
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>Интерьер кухни</td>
-                        <td>3Ds Max</td>
-                        <td>JPG</td>
-                        <td>1920x1080</td>
-                        <td>
-                          <span className="badge badge-pill badge-success">Готово</span>
-                        </td>
-                        <td>
-                          <a href="#" download>Скачать</a>
-                        </td>
-                      </tr>
+                      {
+                        projects.map((item) => (
+                          <tr key={item.status_id}>
+                            <td>{ item.project_id }</td>
+                            <td>{ item.project_name }</td>
+                            <td>{ item.program }</td>
+                            <td>{ item.output_format }</td>
+                            <td>{ `${item.output_width}x${item.output_height}` }</td>
+                            <td>
+                              <span className={`badge badge-pill badge-${getProjectStatus(item.status_id).style}`}>{ getProjectStatus(item.status_id).name }</span>
+                            </td>
+                            <td>
+                              {
+                                item.link_to_archive && (<a href={item.link_to_archive} download>Скачать</a>)
+                              }
+                            </td>
+                          </tr>
+                        ))
+                      }
                     </tbody>
                   </table>
                 </div>

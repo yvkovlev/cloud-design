@@ -4,10 +4,14 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+
+import { ToastContainer } from 'react-toastify';
+
 import Header from '../../layouts/Header/Header';
 import Footer from '../../layouts/Footer/Footer';
 import Projects from '../../pages/Projects/Projects';
 import SignUp from '../../pages/SignUp/SignUp';
+import SignIn from '../../pages/SignIn/SignIn';
 
 import styles from './App.module.scss';
 
@@ -25,8 +29,22 @@ const App = () => {
         <Route path="/sign-up">
           <SignUp />
         </Route>
+        <Route path="/sign-in">
+          <SignIn />
+        </Route>
       </Switch>
       <Footer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Router>
   );
 };

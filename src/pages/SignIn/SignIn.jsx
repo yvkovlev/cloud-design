@@ -31,12 +31,19 @@ const SignIn = () => {
       password: '',
     },
     validate,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const response = await fetchData('/api/sign-in', 'POST', values);
-        console.log(response);
+        if (response.code === 200) {
+          toast.success('Пользователь успешно авторизован!');
+          resetForm();
+        }
       } catch (error) {
-        toast.error(`Не удалось получить данные от API: /api/sign-in. Ответ сервера: ${error.message}`);
+        if (error.response.status === 422) {
+          toast.error('Некорректные email или пароль.');
+        } else {
+          toast.error(`Ошибка сервера: ${error.response.status}`);
+        }
       }
     },
   });

@@ -44,12 +44,19 @@ const SignUp = () => {
       isPolicyAccepted: '',
     },
     validate,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const response = await fetchData('/api/sign-up', 'POST', values);
-        console.log(response);
+        if (response.code === 200) {
+          toast.success('Пользователь успешно зарегистрирован!');
+          resetForm();
+        }
       } catch (error) {
-        toast.error(`Не удалось получить данные от API: /api/sign-up. Ответ сервера: ${error.message}`);
+        if (error.response.status === 422) {
+          toast.error('Такой пользователь уже существует!');
+        } else {
+          toast.error(`Ошибка сервера: ${error.response.status}`);
+        }
       }
     },
   });

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 import fetchData from '@utils/fetch';
 import dictionary from '@utils/dictionary';
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const validate = (values) => {
   const errors = {};
@@ -37,7 +36,7 @@ const SignIn = () => {
         const response = await fetchData('/api/sign-in', 'POST', values);
         console.log(response);
       } catch (error) {
-        console.error(error);
+        toast.error(`Не удалось получить данные от API: /api/sign-in. Ответ сервера: ${error.message}`);
       }
     },
   });

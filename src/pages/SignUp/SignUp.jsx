@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 import fetchData from '@utils/fetch';
@@ -48,7 +49,7 @@ const SignUp = () => {
         const response = await fetchData('/api/sign-up', 'POST', values);
         console.log(response);
       } catch (error) {
-        console.error(error);
+        toast.error(`Не удалось получить данные от API: /api/sign-up. Ответ сервера: ${error.message}`);
       }
     },
   });

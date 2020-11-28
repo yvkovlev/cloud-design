@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const BalanceSchema = mongoose.Schema({
     _id: Number,
-    u_id: Number,
+    u_id: {
+        type: Number,
+        required: true
+    },
     value: Number
 });
 

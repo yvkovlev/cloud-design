@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const ProjectSchema = mongoose.Schema({
     _id: Number,
-    project_name: String,
+    project_name: {
+        type: String,
+        required: true
+    },
     output_format: String,
     output_height: Number,
     output_width: Number,

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 import fetchData from '@utils/fetch';
 import dictionary from '@utils/dictionary';
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const validate = (values) => {
   const errors = {};
@@ -32,12 +31,19 @@ const SignIn = () => {
       password: '',
     },
     validate,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const response = await fetchData('/api/sign-in', 'POST', values);
-        console.log(response);
+        if (response.code === 200) {
+          toast.success('Пользователь успешно авторизован!');
+          resetForm();
+        }
       } catch (error) {
-        console.error(error);
+        if (error.response.status === 422) {
+          toast.error('Некорректные email или пароль.');
+        } else {
+          toast.error(`Ошибка сервера: ${error.response.status}`);
+        }
       }
     },
   });

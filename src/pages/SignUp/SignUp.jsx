@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 import fetchData from '@utils/fetch';
@@ -43,12 +44,19 @@ const SignUp = () => {
       isPolicyAccepted: '',
     },
     validate,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const response = await fetchData('/api/sign-up', 'POST', values);
-        console.log(response);
+        if (response.code === 200) {
+          toast.success('Пользователь успешно зарегистрирован!');
+          resetForm();
+        }
       } catch (error) {
-        console.error(error);
+        if (error.response.status === 422) {
+          toast.error('Такой пользователь уже существует!');
+        } else {
+          toast.error(`Ошибка сервера: ${error.response.status}`);
+        }
       }
     },
   });

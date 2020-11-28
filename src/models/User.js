@@ -7,7 +7,6 @@ const emailValidator = validate({
 })
 
 const UserSchema = mongoose.Schema({
-    _id: Number,
     email: {
         type: String,
         required: true,
@@ -20,7 +19,7 @@ const UserSchema = mongoose.Schema({
     },
     registration_date: {
         type: Date,
-        required: true
+        default: Date.now()
     },
     name: {
         type: String,

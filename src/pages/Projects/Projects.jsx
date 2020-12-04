@@ -1,123 +1,62 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 
 import dictionary from '@utils/dictionary';
 import { getProjectStatus } from '@utils/functions';
 
-import { getDateData } from '../../store/action-creator';
-
-const projects = [
-  {
-    project_id: 4,
-    project_name: 'Интерьер ванной',
-    link_to_archive: '#',
-    program: '3Ds Max',
-    fonts: ['PT Sans', 'Open Sans'],
-    frame_start: '00:00:00',
-    frame_end: '00:01:00',
-    output_format: 'JPG',
-    output_width: '1920',
-    output_height: '1080',
-    comment: 'Комментарий к проекту',
-    start_date: new Date(),
-    end_date: new Date(),
-    status_id: 2,
-  },
-  {
-    project_id: 3,
-    project_name: 'Интерьер спальни',
-    link_to_archive: null,
-    program: '3Ds Max',
-    fonts: ['PT Sans', 'Open Sans'],
-    frame_start: '00:00:00',
-    frame_end: '00:01:00',
-    output_format: 'JPG',
-    output_width: '1920',
-    output_height: '1080',
-    comment: 'Комментарий к проекту',
-    start_date: new Date(),
-    end_date: new Date(),
-    status_id: 3,
-  },
-  {
-    project_id: 2,
-    project_name: 'Интерьер спальни',
-    link_to_archive: '#',
-    program: '3Ds Max',
-    fonts: ['PT Sans', 'Open Sans'],
-    frame_start: '00:00:00',
-    frame_end: '00:01:00',
-    output_format: 'JPG',
-    output_width: '1920',
-    output_height: '1080',
-    comment: 'Комментарий к проекту',
-    start_date: new Date(),
-    end_date: new Date(),
-    status_id: 2,
-  },
-  {
-    project_id: 1,
-    project_name: 'Интерьер кухни',
-    link_to_archive: '#',
-    program: '3Ds Max',
-    fonts: ['PT Sans', 'Open Sans'],
-    frame_start: '00:00:00',
-    frame_end: '00:01:00',
-    output_format: 'JPG',
-    output_width: '1920',
-    output_height: '1080',
-    comment: 'Комментарий к проекту',
-    start_date: new Date(),
-    end_date: new Date(),
-    status_id: 1,
-  },
-];
+import { getProjectsData } from '../../store/action-creator';
 
 const Projects = () => {
   const dispatch = useDispatch();
-  const date = useSelector((state) => state.date);
+  const projects = useSelector((state) => state.projects);
 
   useEffect(() => {
     (async () => {
-      if (!date) {
-        await dispatch(getDateData());
+      if (isEmpty(projects)) {
+        await dispatch(getProjectsData());
       }
     })();
   }, []);
 
   useEffect(() => {
-    document.title = dictionary.APP_NAME;
+    document.title = `Проекты – ${dictionary.APP_NAME}`;
   }, []);
 
   return (
     <main className="main">
       <div className="container">
-        <div className="row">
-          <div className="col-sm-3">
-            <div className="card">
-              <div className="card-body">
-                <ul className="nav flex-column">
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">Active</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">Link</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">Link</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">Disabled</a>
-                  </li>
-                </ul>
-              </div>
+        <div className="row mb-3">
+          <div className="col-12">
+            <div className="d-flex justify-content-between">
+              <h4 className="m-0">Проекты</h4>
+              <Link to="/add-project" className="btn btn-outline-primary">Новый проект</Link>
             </div>
           </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-3">
+            <ul className="list-group">
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                Проекты выполненные
+                <span className="badge badge-success badge-pill">2</span>
+              </li>
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                Проекты в обработке
+                <span className="badge badge-warning badge-pill">1</span>
+              </li>
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                Проекты с ошибкой
+                <span className="badge badge-danger badge-pill">1</span>
+              </li>
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                Всего проектов
+                <span className="badge badge-light badge-pill">{ !isEmpty(projects) ? projects.length : 0 }</span>
+              </li>
+            </ul>
+          </div>
           <div className="col-sm-9">
-            <div className="d-flex justify-content-between mb-3">
-              <h4 className="m-0">Проекты</h4>
-              <button className="btn btn-sm btn-outline-primary">Новый проект</button>
-            </div>
             <div className="card">
               <div className="card-body">
                 <div className="table-responsive">
@@ -127,6 +66,8 @@ const Projects = () => {
                         <th scope="col">ID</th>
                         <th scope="col">Название</th>
                         <th scope="col">Программа</th>
+                        <th scope="col">Плагин</th>
+                        <th scope="col">Рендер-движок</th>
                         <th scope="col">Формат</th>
                         <th scope="col">Разрешение</th>
                         <th scope="col">Статус</th>
@@ -135,11 +76,13 @@ const Projects = () => {
                     </thead>
                     <tbody>
                       {
-                        projects.map((item) => (
+                        !isEmpty(projects) && projects.map((item) => (
                           <tr key={item.status_id}>
                             <td>{ item.project_id }</td>
                             <td>{ item.project_name }</td>
                             <td>{ item.program }</td>
+                            <td>{ item.plugin }</td>
+                            <td>{ item.render_utility }</td>
                             <td>{ item.output_format }</td>
                             <td>{ `${item.output_width}x${item.output_height}` }</td>
                             <td>

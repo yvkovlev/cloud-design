@@ -14,6 +14,7 @@ import SignUp from '../../pages/SignUp/SignUp';
 import SignIn from '../../pages/SignIn/SignIn';
 
 import styles from './App.module.scss';
+import AddProject from "../../pages/AddProject/AddProject";
 
 const App = () => {
   const { wrapper } = styles;
@@ -31,6 +32,9 @@ const App = () => {
         </Route>
         <Route path="/sign-in">
           <SignIn />
+        </Route>
+        <Route path="/add-project">
+          <AddProject />
         </Route>
       </Switch>
       <Footer />

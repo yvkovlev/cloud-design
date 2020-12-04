@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
 
-import dateReducer from './reducers/date-reducer';
+import isAuthorizedReducer from './reducers/is-authorized-reducer';
+import projectsReducer from './reducers/projects-reducer';
 
 export default combineReducers({
-  date: dateReducer,
+  isAuthorized: isAuthorizedReducer,
+  projects: projectsReducer,
 });

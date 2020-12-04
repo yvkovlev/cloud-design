@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import fetchData from '@utils/fetch';
 import dictionary from '@utils/dictionary';
+
+import { updateIsAuthorizedData} from '../../store/action-creator';
 
 const validate = (values) => {
   const errors = {};
@@ -21,9 +24,19 @@ const validate = (values) => {
 };
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+  const isAuthorized = useSelector((state) => state.isAuthorized);
+  let history = useHistory();
+
   useEffect(() => {
     document.title = `Вход – ${dictionary.APP_NAME}`;
   }, []);
+
+  useEffect(() => {
+    if (isAuthorized) {
+      history.push('/');
+    }
+  }, [isAuthorized]);
 
   const formik = useFormik({
     initialValues: {
@@ -35,7 +48,7 @@ const SignIn = () => {
       try {
         const response = await fetchData('/api/sign-in', 'POST', values);
         if (response.code === 200) {
-          toast.success('Пользователь успешно авторизован!');
+          dispatch(updateIsAuthorizedData(true));
           resetForm();
         }
       } catch (error) {

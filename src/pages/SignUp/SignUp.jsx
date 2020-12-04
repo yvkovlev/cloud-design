@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 import fetchData from '@utils/fetch';
 import dictionary from '@utils/dictionary';
@@ -32,6 +32,8 @@ const validate = (values) => {
 };
 
 const SignUp = () => {
+  let history = useHistory();
+
   useEffect(() => {
     document.title = `Регистрация – ${dictionary.APP_NAME}`;
   }, []);
@@ -49,6 +51,7 @@ const SignUp = () => {
         const response = await fetchData('/api/sign-up', 'POST', values);
         if (response.code === 200) {
           toast.success('Пользователь успешно зарегистрирован!');
+          history.push('/sign-in');
           resetForm();
         }
       } catch (error) {

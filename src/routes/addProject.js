@@ -1,11 +1,31 @@
 const router = require('express').Router();
+const path = require('path');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
 const Font = require('../models/Font');
 const Plugin = require('../models/Plugin');
 const Project = require('../models/Project');
 const RenderUtility = require('../models/RenderUtility');
 const Status = require('../models/Status');
 
-router.post("/add-project", async (req, res) => {
+const storage = new GridFsStorage({
+  url: 'mongodb://localhost:27017/cloud-designDB',
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      const filename = req.body.fileName + path.extname(file.originalname);
+      const fileInfo = {
+        filename: filename,
+        bucketName: 'contents',
+        metadata: req.body,
+      }
+      resolve(fileInfo);
+    });
+  }
+});
+
+const upload = multer({ storage });
+
+router.post("/add-project", upload.single('archive'), async (req, res) => {
 
   const newStatus = new Status({});
 
@@ -18,7 +38,8 @@ router.post("/add-project", async (req, res) => {
     program: req.body.program,
     frame_start: req.body.frame_start,
     frame_end: req.body.frame_end,
-    status_id: newStatus._id
+    status_id: newStatus._id,
+    archive_id: req.file._id
   });
 
   const newPlugin = new Plugin({

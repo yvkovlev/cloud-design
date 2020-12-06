@@ -24,6 +24,10 @@ const ProjectSchema = mongoose.Schema({
     status_id: {
         type: mongoose.Types.ObjectId,
         ref: 'Status'
+    },
+    archive_id: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Status'
     }
 });
 

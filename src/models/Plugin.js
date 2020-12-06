@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const RenderUtilitySchema = mongoose.Schema({
-    renderutility_name: {
+const PluginSchema = mongoose.Schema({
+    plugin_name: {
         type: String,
         required: true
     },
@@ -11,4 +11,4 @@ const RenderUtilitySchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Renderutility', RenderUtilitySchema);
+module.exports = mongoose.model('Plugin', PluginSchema);

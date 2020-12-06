@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const ProjectSchema = mongoose.Schema({
-    _id: Number,
+    // p_id: {
+    //     type: Number,
+    //     default: 0
+    // },
     project_name: {
         type: String,
         required: true
@@ -10,13 +13,18 @@ const ProjectSchema = mongoose.Schema({
     output_height: Number,
     output_width: Number,
     comment: String,
-    link_to_archive: String,
     program: String,
     frame_start: Date,
     frame_end: Date,
-    start_date: Date,
+    start_date: {
+        type: Date,
+        default: Date.now()
+    },
     end_date: Date,
-    status_id: Number
+    status_id: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Status'
+    }
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);

@@ -17,15 +17,15 @@ const storage = new GridFsStorage({
         filename: filename,
         bucketName: 'contents',
         metadata: req.body,
-      }
+      };
       resolve(fileInfo);
     });
-  }
+  },
 });
 
 const upload = multer({ storage });
 
-router.post("/add-project", upload.single('archive'), async (req, res) => {
+router.post("/projects", upload.single('archive'), async (req, res) => {
 
   const newStatus = new Status({});
 
@@ -39,22 +39,22 @@ router.post("/add-project", upload.single('archive'), async (req, res) => {
     frame_start: req.body.frame_start,
     frame_end: req.body.frame_end,
     status_id: newStatus._id,
-    archive_id: req.file._id
+    archive_id: req.file._id,
   });
 
   const newPlugin = new Plugin({
     plugin_name: req.body.plugin,
-    project_id: newProject._id
+    project_id: newProject._id,
   });
 
   const newRenderUtility = new RenderUtility({
     renderutility_name: req.body.render_utility,
-    project_id: newProject._id
+    project_id: newProject._id,
   });
 
   const newFont = new Font({
     font_name: req.body.fonts,
-    project_id: newProject._id
+    project_id: newProject._id,
   })
 
   try {

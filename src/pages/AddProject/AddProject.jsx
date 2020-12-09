@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import dictionary from '@utils/dictionary';
 import { Link } from 'react-router-dom';
@@ -41,14 +41,8 @@ const validate = (values) => {
 
   if (!values.archive) {
     errors.archive = 'Не выбран архив проекта';
-  }
-
-  if (values.frame_start && !/[0-9]{2}:[0-9]{2}:[0-9]{2}/i.test(values.frame_start)) {
-    errors.frame_start = 'Некорректный формат';
-  }
-
-  if (values.frame_end && !/[0-9]{2}:[0-9]{2}:[0-9]{2}/i.test(values.frame_end)) {
-    errors.frame_end = 'Некорректный формат';
+  } else if (values.archive.type !== 'application/zip') {
+    errors.archive = 'Необходимо выбрать архив с расширением .zip';
   }
 
   return errors;
@@ -63,14 +57,13 @@ const AddProject = () => {
 
   const formik = useFormik({
     initialValues: {
-      project_name: '',
       archive: null,
+      project_name: '',
       program: null,
       plugin: null,
       render_utility: null,
       fonts: [],
-      frame_start: '',
-      frame_end: '',
+      frames: '',
       output_format: null,
       output_width: '',
       output_height: '',
@@ -78,11 +71,25 @@ const AddProject = () => {
     },
     validate,
     onSubmit: async (values, { resetForm }) => {
-      alert(JSON.stringify(values, null, 2));
+      let data = new FormData();
+
+      data.append('archive', values.archive);
+      data.append('project_name', values.project_name);
+      data.append('program', values.program);
+      data.append('plugin', values.plugin);
+      data.append('render_utility', values.render_utility);
+      data.append('fonts', values.fonts);
+      data.append('frames', values.frames);
+      data.append('output_format', values.output_format);
+      data.append('output_width', values.output_width);
+      data.append('output_height', values.output_height);
+      data.append('comment', values.comment);
+
       try {
-        const response = await fetchData('/api/projects', 'POST', values);
+        const response = await fetchData('/api/projects', 'POST', data);
         if (response.code === 200) {
           resetForm();
+          toast.success('Проект успешно добавлен!');
         }
       } catch (error) {
         if (error.response.status === 422) {
@@ -96,7 +103,7 @@ const AddProject = () => {
 
   useEffect(() => {
     if (formik.values.archive) {
-      setDragNDropText(`Выбран файл: ${formik.values.archive}`);
+      setDragNDropText(`Выбран файл: ${formik.values.archive.name}`);
     } else {
       setDragNDropText('Перетащите архив не более 10 Гб или загрузите файл с компьютера');
     }
@@ -127,9 +134,10 @@ const AddProject = () => {
                         className="form-control"
                         id="archive"
                         name="archive"
-                        onChange={formik.handleChange}
+                        onChange={(event) => {
+                          formik.setFieldValue('archive', event.currentTarget.files[0]);
+                        }}
                         onBlur={formik.handleBlur}
-                        value={formik.values.archive}
                       />
                       <div className="drag-n-drop-zone">
                         <div className="text-primary">
@@ -282,33 +290,19 @@ const AddProject = () => {
                     </div>
                   </div>
                   <div className="form-group row">
-                    <div className="col-sm-6">
-                      <label htmlFor="frame_start">Кадрирование от:</label>
+                    <label htmlFor="frames" className="col-sm-4 col-form-label">Диапазон кадров:</label>
+                    <div className="col-sm-8">
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="В формате 00:00:00"
-                        id="frame_start"
-                        name="frame_start"
+                        placeholder="Например, 0-10,12,15"
+                        id="frames"
+                        name="frames"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.frame_start}
+                        value={formik.values.frames}
                       />
-                      {formik.touched.frame_start && formik.errors.frame_start ? <small className="text-danger">{formik.errors.frame_start}</small> : <small className="text-muted">Необязательный параметр</small>}
-                    </div>
-                    <div className="col-sm-6">
-                      <label htmlFor="frame_end">Кадрирование до:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="В формате 00:00:00"
-                        id="frame_end"
-                        name="frame_end"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.frame_end}
-                      />
-                      {formik.touched.frame_end && formik.errors.frame_end ? <small className="text-danger">{formik.errors.frame_end}</small> : <small className="text-muted">Необязательный параметр</small>}
+                      {formik.touched.frames && formik.errors.frames ? <small className="text-danger">{formik.errors.frames}</small> : null}
                     </div>
                   </div>
                   <div className="form-group row">
@@ -361,7 +355,7 @@ const AddProject = () => {
                   </div>
                 </form>
                 <hr />
-                <button className="btn btn-success" onClick={formik.handleSubmit}>Начать рендеринг</button>
+                <button type="button" className="btn btn-success" onClick={formik.handleSubmit}>Начать рендеринг</button>
               </div>
             </div>
           </div>

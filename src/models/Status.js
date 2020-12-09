@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const StatusSchema = mongoose.Schema({
-    _id: Number,
     status_name: {
         type: String,
-        required: true
+        required: true,
+        default: "in process"
     }
 });
 

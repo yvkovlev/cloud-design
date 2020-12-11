@@ -25,9 +25,21 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage });
 
-router.post("/projects", upload.single('archive'), async (req, res) => {
+router
+  .get("/projects", async (req, res) => {
+    const userProjects = await Project.find({ user_email: req.body.email }, (err, projects) => {
+      if (err)
+        res.status(500).send({
+          "code": "500",
+          "message": "server error"
+        });
+      else
+        res.status(200).send(projects);
+    })
 
-  const newStatus = new Status({});
+  })
+
+  .post("/projects", upload.single('archive'), async (req, res) => {
 
   const newProject = new Project({
     project_name: req.body.project_name,
@@ -38,7 +50,7 @@ router.post("/projects", upload.single('archive'), async (req, res) => {
     program: req.body.program,
     frame_start: req.body.frame_start,
     frame_end: req.body.frame_end,
-    status_id: newStatus._id,
+    user_email: req.body.email,
     // archive_id: req.file._id,
   });
 
@@ -56,17 +68,6 @@ router.post("/projects", upload.single('archive'), async (req, res) => {
     font_name: req.body.fonts,
     project_id: newProject._id,
   })
-
-  try {
-    newStatus.save();
-  } catch(err) {
-    console.log("Status wasn't saved");
-    console.log(err);
-    return res.send({
-      "code": "500",
-      "message": "can't save status"
-    })
-  }
 
   try {
     newProject.save();

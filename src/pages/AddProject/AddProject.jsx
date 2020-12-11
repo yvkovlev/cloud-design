@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';
 import fetchData from '@utils/fetch';
 import { toast } from 'react-toastify';
+import {useAuth} from "../../hooks/use-auth";
 
 const validate = (values) => {
   const errors = {};
@@ -49,6 +50,7 @@ const validate = (values) => {
 };
 
 const AddProject = () => {
+  const auth = useAuth();
   const [dragNDropText, setDragNDropText] = useState('');
 
   useEffect(() => {
@@ -84,6 +86,7 @@ const AddProject = () => {
       data.append('output_width', values.output_width);
       data.append('output_height', values.output_height);
       data.append('comment', values.comment);
+      data.append('email', auth.user);
 
       try {
         const response = await fetchData('/api/projects', 'POST', data);

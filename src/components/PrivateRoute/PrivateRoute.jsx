@@ -6,10 +6,6 @@ import { useAuth } from '../../hooks/use-auth.js';
 const PrivateRoute = ({ children, ...rest }) => {
   const auth = useAuth();
 
-  console.log(rest);
-
-  console.log(children);
-
   return (
     <Route
       {...rest}

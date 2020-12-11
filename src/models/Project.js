@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-designDB', {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+});
+
 const ProjectSchema = mongoose.Schema({
     // p_id: {
     //     type: Number,
@@ -31,4 +36,4 @@ const ProjectSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Project', ProjectSchema);
+module.exports = connection.model('Project', ProjectSchema);

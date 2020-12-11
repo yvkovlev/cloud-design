@@ -25,7 +25,21 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage });
 
-router.post("/projects", upload.single('archive'), async (req, res) => {
+router
+  .get("/projects", async (req, res) => {
+    const userProjects = await Project.find({ user_email: req.body.email }, (err, projects) => {
+      if (err)
+        res.status(500).send({
+          "code": "500",
+          "message": "server error"
+        });
+      else
+        res.status(200).send(projects);
+    })
+
+  })
+
+  .post("/projects", upload.single('archive'), async (req, res) => {
 
   const newStatus = new Status({});
 
@@ -39,6 +53,7 @@ router.post("/projects", upload.single('archive'), async (req, res) => {
     frame_start: req.body.frame_start,
     frame_end: req.body.frame_end,
     status_id: newStatus._id,
+    user_email: req.body.email,
     // archive_id: req.file._id,
   });
 

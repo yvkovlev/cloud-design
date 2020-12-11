@@ -26,6 +26,7 @@ const ProjectSchema = mongoose.Schema({
         default: Date.now()
     },
     end_date: Date,
+    user_email: String,
     status_id: {
         type: mongoose.Types.ObjectId,
         ref: 'Status'

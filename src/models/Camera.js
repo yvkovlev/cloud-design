@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-designDB', {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+});
+
 const CameraSchema = mongoose.Schema({
     _id: Number,
     camera_name: {
@@ -13,4 +18,4 @@ const CameraSchema = mongoose.Schema({
     project_id: Number
 });
 
-module.exports = mongoose.model('Camera', CameraSchema);
+module.exports = connection.model('Camera', CameraSchema);

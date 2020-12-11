@@ -3,6 +3,13 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 router.post("/sign-up", async (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      res.send({
+        "byeee": "yes."
+      })
+    }
+  });
 
   const anyUser = await User.findOne({ email: req.body.email });
   if (anyUser)

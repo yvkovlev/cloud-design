@@ -41,8 +41,6 @@ router
 
   .post("/projects", upload.single('archive'), async (req, res) => {
 
-  const newStatus = new Status({});
-
   const newProject = new Project({
     project_name: req.body.project_name,
     output_format: req.body.output_format,
@@ -52,7 +50,6 @@ router
     program: req.body.program,
     frame_start: req.body.frame_start,
     frame_end: req.body.frame_end,
-    status_id: newStatus._id,
     user_email: req.body.email,
     // archive_id: req.file._id,
   });
@@ -71,17 +68,6 @@ router
     font_name: req.body.fonts,
     project_id: newProject._id,
   })
-
-  try {
-    newStatus.save();
-  } catch(err) {
-    console.log("Status wasn't saved");
-    console.log(err);
-    return res.send({
-      "code": "500",
-      "message": "can't save status"
-    })
-  }
 
   try {
     newProject.save();

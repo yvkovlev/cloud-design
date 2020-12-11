@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { toast } from 'react-toastify';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
-import fetchData from '@utils/fetch';
 import dictionary from '@utils/dictionary';
 
-import { updateIsAuthorizedData} from '../../store/action-creator';
+import {useAuth} from "../../hooks/use-auth";
 
 const validate = (values) => {
   const errors = {};
@@ -24,19 +21,18 @@ const validate = (values) => {
 };
 
 const SignIn = () => {
-  const dispatch = useDispatch();
-  const isAuthorized = useSelector((state) => state.isAuthorized);
-  let history = useHistory();
+  const auth = useAuth();
+  const history = useHistory();
 
   useEffect(() => {
     document.title = `Вход – ${dictionary.APP_NAME}`;
   }, []);
 
   useEffect(() => {
-    if (isAuthorized) {
+    if (auth.user) {
       history.push('/');
     }
-  }, [isAuthorized]);
+  }, [auth.user]);
 
   const formik = useFormik({
     initialValues: {
@@ -44,20 +40,9 @@ const SignIn = () => {
       password: '',
     },
     validate,
-    onSubmit: async (values, { resetForm }) => {
-      try {
-        const response = await fetchData('/api/sign-in', 'POST', values);
-        if (response.code === 200) {
-          dispatch(updateIsAuthorizedData(true));
-          resetForm();
-        }
-      } catch (error) {
-        if (error.response.status === 422) {
-          toast.error('Некорректные email или пароль.');
-        } else {
-          toast.error(`Ошибка сервера: ${error.response.status}`);
-        }
-      }
+    onSubmit: (values, { resetForm }) => {
+      auth.signIn(values)
+        .then(() => resetForm());
     },
   });
 

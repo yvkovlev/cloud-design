@@ -1,26 +1,17 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import styles from './Header.module.scss';
-import { updateIsAuthorizedData } from '../../store/action-creator';
+import { useAuth } from '../../hooks/use-auth';
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const isAuthorized = useSelector((state) => state.isAuthorized);
-  let history = useHistory();
+  const auth = useAuth();
 
   const {
     header,
   } = styles;
-
-  useEffect(() => {
-    if (!isAuthorized) {
-      //history.push('/sign-in');
-    }
-  }, [isAuthorized]);
 
   return (
     <header className={header}>
@@ -40,7 +31,7 @@ const Header = () => {
 
         <div className="collapse navbar-collapse" id="navbarToggler">
           {
-            isAuthorized ? (
+            auth.user ? (
               <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li className="nav-item">
                   <Link className="nav-link" to="/">Мои проекты</Link>
@@ -61,7 +52,7 @@ const Header = () => {
             )
           }
           {
-            isAuthorized ? (
+            auth.user ? (
               <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li className="nav-item">
                   <a className="nav-link" href="#">
@@ -78,7 +69,7 @@ const Header = () => {
                   <Link className="nav-link" to="/">FAQ</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={() => dispatch(updateIsAuthorizedData(false))}>Выход</a>
+                  <a className="nav-link" href="#" onClick={() => auth.signOut()}>Выход</a>
                 </li>
               </ul>
             ) : (

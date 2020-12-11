@@ -36,27 +36,7 @@ const Projects = () => {
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-3">
-            <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                Проекты выполненные
-                <span className="badge badge-success badge-pill">2</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                Проекты в обработке
-                <span className="badge badge-warning badge-pill">1</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                Проекты с ошибкой
-                <span className="badge badge-danger badge-pill">1</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                Всего проектов
-                <span className="badge badge-light badge-pill">{ !isEmpty(projects) ? projects.length : 0 }</span>
-              </li>
-            </ul>
-          </div>
-          <div className="col-sm-9">
+          <div className="col-12">
             <div className="card">
               <div className="card-body">
                 <div className="table-responsive">
@@ -70,6 +50,7 @@ const Projects = () => {
                         <th scope="col">Рендер-движок</th>
                         <th scope="col">Формат</th>
                         <th scope="col">Разрешение</th>
+                        <th scope="col">Стоимость</th>
                         <th scope="col">Статус</th>
                         <th scope="col">Результат</th>
                       </tr>
@@ -77,16 +58,17 @@ const Projects = () => {
                     <tbody>
                       {
                         !isEmpty(projects) && projects.map((item) => (
-                          <tr key={item.status_id}>
-                            <td>{ item.project_id }</td>
-                            <td>{ item.project_name }</td>
-                            <td>{ item.program }</td>
-                            <td>{ item.plugin }</td>
-                            <td>{ item.render_utility }</td>
-                            <td>{ item.output_format }</td>
-                            <td>{ `${item.output_width}x${item.output_height}` }</td>
+                          <tr key={item.status_id || 0}>
+                            <td>{ item.project_id || '-' }</td>
+                            <td>{ item.project_name || '-' }</td>
+                            <td>{ item.program || '-' }</td>
+                            <td>{ item.plugin || '-' }</td>
+                            <td>{ item.render_utility || '-' }</td>
+                            <td>{ item.output_format || '-' }</td>
+                            <td>{ `${item.output_width || '-'}x${item.output_height || '-'}` }</td>
+                            <td>{ `${item.cost || '-'} HRS` }</td>
                             <td>
-                              <span className={`badge badge-pill badge-${getProjectStatus(item.status_id).style}`}>{ getProjectStatus(item.status_id).name }</span>
+                              <span className={`badge badge-pill badge-${getProjectStatus(item.status_id).style || 'light'}`}>{ getProjectStatus(item.status_id).name || '-' }</span>
                             </td>
                             <td>
                               {

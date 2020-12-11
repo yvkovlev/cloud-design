@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-designDB', {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+});
+
 const RenderUtilitySchema = mongoose.Schema({
     renderutility_name: {
         type: String,
@@ -11,4 +16,4 @@ const RenderUtilitySchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Renderutility', RenderUtilitySchema);
+module.exports = connection.model('Renderutility', RenderUtilitySchema);

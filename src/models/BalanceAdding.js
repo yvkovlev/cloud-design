@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-designDB', {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+});
+
 const BalanceAddingSchema = mongoose.Schema({
     _id: Number,
     date: {
@@ -14,4 +19,4 @@ const BalanceAddingSchema = mongoose.Schema({
     u_id: Number
 });
 
-module.exports = mongoose.model('BalanceAdding', BalanceAddingSchema);
+module.exports = connection.model('BalanceAdding', BalanceAddingSchema);

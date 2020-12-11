@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
-const validate = require('mongoose-validator')
+const validate = require('mongoose-validator');
+// const connection = require('../../app');
+const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-designDB', {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+});
 
 const emailValidator = validate({
     validator: 'matches',
@@ -26,5 +31,5 @@ const UserSchema = mongoose.Schema({
         required: true
     }
 });
-
-module.exports = mongoose.model('User', UserSchema);
+const User = connection.model('User', UserSchema);
+module.exports = User;

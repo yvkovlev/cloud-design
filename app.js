@@ -30,6 +30,10 @@ const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-de
   useNewUrlParser: true,
 });
 
+// connection.on('error', (err) => {
+//   console.error('MongoDB error: %s', err);
+// });
+
 let gfs;
 connection.once('open', () => {
   gfs = Grid(connection.db, mongoose.mongo);
@@ -48,3 +52,4 @@ app.listen(8080, () => {
   console.log('Running local server');
 });
 
+// module.exports = connection;

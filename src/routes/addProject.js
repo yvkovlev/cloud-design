@@ -39,7 +39,7 @@ router.post("/projects", upload.single('archive'), async (req, res) => {
     frame_start: req.body.frame_start,
     frame_end: req.body.frame_end,
     status_id: newStatus._id,
-    archive_id: req.file._id,
+    // archive_id: req.file._id,
   });
 
   const newPlugin = new Plugin({

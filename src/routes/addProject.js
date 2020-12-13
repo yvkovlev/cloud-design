@@ -2,11 +2,7 @@ const router = require('express').Router();
 const path = require('path');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
-const Font = require('../models/Font');
-const Plugin = require('../models/Plugin');
 const Project = require('../models/Project');
-const RenderUtility = require('../models/RenderUtility');
-const Status = require('../models/Status');
 
 const storage = new GridFsStorage({
   url: 'mongodb://localhost:27017/cloud-designDB',
@@ -51,26 +47,19 @@ router
     frame_start: req.body.frame_start,
     frame_end: req.body.frame_end,
     user_email: req.body.email,
+    render_utility_id: req.body.render_utility,
+    plugin_id: req.body.plugin,
+    font_id: req.body.fonts
     // archive_id: req.file._id,
   });
 
-  const newPlugin = new Plugin({
-    plugin_name: req.body.plugin,
-    project_id: newProject._id,
-  });
-
-  const newRenderUtility = new RenderUtility({
-    renderutility_name: req.body.render_utility,
-    project_id: newProject._id,
-  });
-
-  const newFont = new Font({
-    font_name: req.body.fonts,
-    project_id: newProject._id,
-  })
-
   try {
     newProject.save();
+
+    return res.status(200).send({
+      "code": "200",
+      "message": ""
+    })
   } catch(err) {
     console.log("Project wasn't saved");
     console.log(err);
@@ -79,44 +68,6 @@ router
       "message": "can't save project"
     })
   }
-
-  try {
-    newRenderUtility.save();
-  } catch(err) {
-    console.log("Render utility wasn't saved");
-    console.log(err);
-    return res.send({
-      "code": "500",
-      "message": "can't save render utility"
-    })
-  }
-
-  try {
-    newPlugin.save();
-  } catch(err) {
-    console.log("Plugin wasn't saved");
-    console.log(err);
-    return res.send({
-      "code": "500",
-      "message": "can't save plugin"
-    })
-  }
-
-  try {
-    newFont.save();
-  } catch(err) {
-    console.log("Font wasn't saved");
-    console.log(err);
-    return res.send({
-      "code": "500",
-      "message": "can't save font"
-    })
-  }
-
-  return res.status(200).send({
-    "code": "200",
-    "message": ""
-  })
 
 })
 

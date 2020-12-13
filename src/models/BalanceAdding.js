@@ -6,17 +6,22 @@ const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-de
 });
 
 const BalanceAddingSchema = mongoose.Schema({
-    _id: Number,
     date: {
         type: Date,
-        required: true
+        default: Date.now()
     },
-    value: {
+    value_hours: {
         type: Number,
         default: 0
     },
-    b_id: Number,
-    u_id: Number
+    value_rubbles: {
+        type: Number,
+        default: 0
+    },
+    b_id: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Balance'
+    }
 });
 
 module.exports = connection.model('BalanceAdding', BalanceAddingSchema);

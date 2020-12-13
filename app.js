@@ -33,11 +33,13 @@ connection.once('open', () => {
 
 const authRoute = require('./src/routes/auth');
 const addProjectRoute = require('./src/routes/addProject');
+const addBalanceRoute = require('./src/routes/balance');
 
 app.use(express.json())
 
 app.use("/api", authRoute);
 app.use("/api", addProjectRoute);
+app.use("/api", addBalanceRoute);
 
 app.listen(8080, () => {
   console.log('Running local server');

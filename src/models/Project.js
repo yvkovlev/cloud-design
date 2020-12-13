@@ -6,10 +6,6 @@ const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-de
 });
 
 const ProjectSchema = mongoose.Schema({
-    // p_id: {
-    //     type: Number,
-    //     default: 0
-    // },
     project_name: {
         type: String,
         required: true
@@ -35,7 +31,10 @@ const ProjectSchema = mongoose.Schema({
     archive_id: {
         type: mongoose.Types.ObjectId,
         ref: 'Status'
-    }
+    },
+    render_utility_id: Number,
+    plugin_id: Number,
+    font_id: Number
 });
 
 module.exports = connection.model('Project', ProjectSchema);

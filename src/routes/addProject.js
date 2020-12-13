@@ -48,10 +48,15 @@ router
     frame_end: req.body.frame_end,
     user_email: req.body.email,
     render_utility_id: req.body.render_utility,
-    plugin_id: req.body.plugin,
-    font_id: req.body.fonts
+    plugin_id: req.body.plugin
     // archive_id: req.file._id,
   });
+
+  let fonts = req.body.fonts.slice(1, -1).split(",");
+  for (let i = 0; i < fonts.length; i++) {
+    console.log(fonts[i]);
+    newProject.font_id.push(fonts[i]);
+  }
 
   try {
     newProject.save();

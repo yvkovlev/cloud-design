@@ -34,7 +34,7 @@ const ProjectSchema = mongoose.Schema({
     },
     render_utility_id: Number,
     plugin_id: Number,
-    font_id: Number
+    font_id: [{type: Number}]
 });
 
 module.exports = connection.model('Project', ProjectSchema);

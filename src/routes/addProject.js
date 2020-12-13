@@ -23,7 +23,7 @@ const upload = multer({ storage });
 
 router
   .get("/projects", async (req, res) => {
-    const userProjects = await Project.find({ user_email: req.query.email}, (err, projects) => {
+    const userProjects = await Project.find({ user_email: req.body.email}, (err, projects) => {
       if (err)
         res.status(500).send({
           "code": "500",
@@ -46,7 +46,7 @@ router
     program: req.body.program,
     frame_start: req.body.frame_start,
     frame_end: req.body.frame_end,
-    user_email: req.query.email,
+    user_email: req.body.email,
     render_utility_id: req.body.render_utility,
     plugin_id: req.body.plugin,
     font_id: req.body.fonts

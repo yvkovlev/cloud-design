@@ -50,7 +50,6 @@ app.listen(8080, () => {
 });
 
 Plugin.countDocuments({}, (err, count) => {
-  console.log(count);
   if (!(count > 0)) {
     const newF = new Plugin({
       id: 0,
@@ -68,7 +67,6 @@ Plugin.countDocuments({}, (err, count) => {
 });
 
 RenderUtility.countDocuments({}, (err, count) => {
-  console.log(count);
   if (!(count > 0)) {
     const newF = new RenderUtility({
       id: 0,
@@ -86,7 +84,6 @@ RenderUtility.countDocuments({}, (err, count) => {
 });
 
 Font.countDocuments({}, (err, count) => {
-  console.log(count);
   if (!(count > 0)) {
     const newF = new Font({
       id: 0,
@@ -104,7 +101,6 @@ Font.countDocuments({}, (err, count) => {
 });
 
 Program.countDocuments({}, (err, count) => {
-  console.log(count);
   if (!(count > 0)) {
     const newP = new Program({
       id: 0,

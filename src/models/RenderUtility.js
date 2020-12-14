@@ -6,13 +6,10 @@ const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-de
 });
 
 const RenderUtilitySchema = mongoose.Schema({
-    renderutility_name: {
+    id: String,
+    name: {
         type: String,
         required: true
-    },
-    project_id: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Project'
     }
 });
 

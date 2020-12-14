@@ -6,7 +6,7 @@ const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-de
 });
 
 const PluginSchema = mongoose.Schema({
-    plugin_name: {
+    name: {
         type: String,
         required: true
     },

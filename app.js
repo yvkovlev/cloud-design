@@ -7,6 +7,10 @@ const hotMiddleware = require('webpack-hot-middleware');
 const bodyParser = require('body-parser');
 const webpackConfig = require('./webpack.config');
 const Grid = require('gridfs-stream');
+const Font = require('./src/models/Font');
+const Plugin = require('./src/models/Plugin');
+const Program = require('./src/models/Program');
+const RenderUtility = require('./src/models/RenderUtility');
 
 const app = express();
 
@@ -45,4 +49,86 @@ app.listen(8080, () => {
   console.log('Running local server');
 });
 
-// module.exports = connection;
+Plugin.countDocuments({}, (err, count) => {
+  console.log(count);
+  if (!(count > 0)) {
+    const newF = new Plugin({
+      id: 0,
+      name: "Без плагина"
+    }).save();
+    const newF2 = new Plugin({
+      id: 1,
+      name: "Realflow"
+    }).save();
+    const newF3 = new Plugin({
+      id: 2,
+      name: "SigerNoise"
+    }).save();
+  }
+});
+
+RenderUtility.countDocuments({}, (err, count) => {
+  console.log(count);
+  if (!(count > 0)) {
+    const newF = new RenderUtility({
+      id: 0,
+      name: "V-ray"
+    }).save();
+    const newF2 = new RenderUtility({
+      id: 1,
+      name: "Corona"
+    }).save();
+    const newF3 = new RenderUtility({
+      id: 2,
+      name: "Arnold"
+    }).save();
+  }
+});
+
+Font.countDocuments({}, (err, count) => {
+  console.log(count);
+  if (!(count > 0)) {
+    const newF = new Font({
+      id: 0,
+      name: "Arial"
+    }).save();
+    const newF2 = new Font({
+      id: 1,
+      name: "PT Sans"
+    }).save();
+    const newF3 = new Font({
+      id: 2,
+      name: "Times New Roman"
+    }).save();
+  }
+});
+
+Program.countDocuments({}, (err, count) => {
+  console.log(count);
+  if (!(count > 0)) {
+    const newP = new Program({
+      id: 0,
+      name: "3Ds Max"
+    }).save();
+    const newP2 = new Program({
+      id: 1,
+      name: "Cinema 4D"
+    }).save();
+    const newP3 = new Program({
+      id: 2,
+      name: "Blender"
+    }).save();
+    const newP4 = new Program({
+      id: 3,
+      name: "After Effects"
+    }).save();
+    const newP5 = new Program({
+      id: 4,
+      name: "Maya"
+    }).save();
+    const newP6 = new Program({
+      id: 5,
+      name: "Houdini"
+    }).save();
+  }
+});

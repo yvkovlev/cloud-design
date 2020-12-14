@@ -2,7 +2,11 @@ const router = require('express').Router();
 const path = require('path');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
+const Font = require('../models/Font');
+const Plugin = require('../models/Plugin');
 const Project = require('../models/Project');
+const Program = require('../models/Program');
+const RenderUtility = require('../models/RenderUtility');
 
 const storage = new GridFsStorage({
   url: 'mongodb://localhost:27017/cloud-designDB',
@@ -37,42 +41,46 @@ router
 
   .post("/projects", upload.single('archive'), async (req, res) => {
 
-  const newProject = new Project({
-    project_name: req.body.project_name,
-    output_format: req.body.output_format,
-    output_height: req.body.output_height,
-    output_width: req.body.output_width,
-    comment: req.body.comment,
-    program: req.body.program,
-    frame_start: req.body.frame_start,
-    frame_end: req.body.frame_end,
-    user_email: req.body.email,
-    render_utility_id: req.body.render_utility,
-    plugin_id: req.body.plugin
-    // archive_id: req.file._id,
-  });
+    const currentRenderUtility = await RenderUtility.findOne({ id: req.body.render_utility}).lean();
+    const currentPlugin = await Plugin.findOne({ id: req.body.plugin}).lean();
+    const currentProgram = await Program.findOne({ id: req.body.program }).lean();
 
-  let fonts = req.body.fonts.slice(1, -1).split(",");
-  for (let i = 0; i < fonts.length; i++) {
-    console.log(fonts[i]);
-    newProject.font_id.push(fonts[i]);
-  }
+    const newProject = new Project({
+      project_name: req.body.project_name,
+      output_format: req.body.output_format,
+      output_height: req.body.output_height,
+      output_width: req.body.output_width,
+      comment: req.body.comment,
+      program: currentProgram.name,
+      frame_start: req.body.frame_start,
+      frame_end: req.body.frame_end,
+      user_email: req.body.email,
+      render_utility: currentRenderUtility.name,
+      plugin: currentPlugin.name,
+      // archive_id: req.file._id,
+    });
 
-  try {
-    newProject.save();
+    let fonts = req.body.fonts.slice(1, -1).split(",");
+    for (let i = 0; i < fonts.length; i++) {
+      let currentFont = await Font.findOne({ id: fonts[i] }).lean();
+      newProject.fonts.push(currentFont.name);
+    }
 
-    return res.status(200).send({
-      "code": "200",
-      "message": ""
-    })
-  } catch(err) {
-    console.log("Project wasn't saved");
-    console.log(err);
-    return res.send({
-      "code": "500",
-      "message": "can't save project"
-    })
-  }
+    try {
+      newProject.save();
+
+      return res.status(200).send({
+        "code": "200",
+        "message": ""
+      })
+    } catch(err) {
+      console.log("Project wasn't saved");
+      console.log(err);
+      return res.send({
+        "code": "500",
+        "message": "can't save project"
+      })
+    }
 
 })
 

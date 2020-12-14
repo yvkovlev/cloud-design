@@ -32,9 +32,9 @@ const ProjectSchema = mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'Status'
     },
-    render_utility_id: Number,
-    plugin_id: Number,
-    font_id: [{type: Number}]
+    render_utility: String,
+    plugin: String,
+    fonts: [{type: String}]
 });
 
 module.exports = connection.model('Project', ProjectSchema);

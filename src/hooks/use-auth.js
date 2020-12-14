@@ -30,14 +30,17 @@ const mainAuth = {
 const authContext = createContext();
 
 function useProvideAuth() {
-  const [user, setUser] = useState(null);
+  const authorizedUser = localStorage.getItem('user');
+  const [user, setUser] = useState(authorizedUser || null);
 
   const signIn = (values) => mainAuth.signIn(values, () => {
     setUser(values.email);
+    localStorage.setItem('user', values.email);
   });
 
   const signOut = () => mainAuth.signOut(() => {
     setUser(false);
+    localStorage.removeItem('user');
   });
 
   return {

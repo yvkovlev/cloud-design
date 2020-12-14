@@ -7,16 +7,16 @@ import dictionary from '@utils/dictionary';
 import { getProjectStatus } from '@utils/functions';
 
 import { getProjectsData } from '../../store/action-creator';
+import { useAuth } from '../../hooks/use-auth';
 
 const Projects = () => {
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects);
+  const auth = useAuth();
 
   useEffect(() => {
     (async () => {
-      if (isEmpty(projects)) {
-        await dispatch(getProjectsData());
-      }
+      await dispatch(getProjectsData(auth.user));
     })();
   }, []);
 
@@ -58,21 +58,23 @@ const Projects = () => {
                     <tbody>
                       {
                         !isEmpty(projects) && projects.map((item) => (
-                          <tr key={item.status_id || 0}>
-                            <td>{ item.project_id || '-' }</td>
+                          <tr key={item._id || 0}>
+                            <td>{ item._id || '-' }</td>
                             <td>{ item.project_name || '-' }</td>
                             <td>{ item.program || '-' }</td>
                             <td>{ item.plugin || '-' }</td>
                             <td>{ item.render_utility || '-' }</td>
                             <td>{ item.output_format || '-' }</td>
                             <td>{ `${item.output_width || '-'}x${item.output_height || '-'}` }</td>
-                            <td>{ `${item.cost || '-'} HRS` }</td>
+                            <td>{ `${item.cost || '1'} HRS` }</td>
                             <td>
                               <span className={`badge badge-pill badge-${getProjectStatus(item.status_id).style || 'light'}`}>{ getProjectStatus(item.status_id).name || '-' }</span>
                             </td>
                             <td>
                               {
-                                item.link_to_archive && (<a href={item.link_to_archive} download>Скачать</a>)
+                                item.link_to_archive && (
+                                  <a href={item.link_to_archive} download>Скачать</a>
+                                )
                               }
                             </td>
                           </tr>

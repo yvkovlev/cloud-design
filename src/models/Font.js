@@ -6,7 +6,7 @@ const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-de
 });
 
 const FontSchema = mongoose.Schema({
-    font_name: {
+    name: {
         type: String,
         required: true
     }

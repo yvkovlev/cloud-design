@@ -55,12 +55,12 @@ const Header = () => {
             auth.user ? (
               <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link className="nav-link" to="/balance">
                     <span className="text-warning">
                       <FontAwesomeIcon icon={faCoins} />
                     </span>
                     <span className="ml-2 text-white">12 HRS</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/">Поддержка</Link>

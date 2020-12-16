@@ -18,6 +18,7 @@ import SignIn from '../../pages/SignIn/SignIn';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 import styles from './App.module.scss';
+import Balance from "../../pages/Balance/Balance";
 
 const App = () => {
   const { wrapper } = styles;
@@ -34,6 +35,9 @@ const App = () => {
           <Route path="/sign-up">
             <SignUp />
           </Route>
+          <PrivateRoute path="/balance">
+            <Balance />
+          </PrivateRoute>
           <PrivateRoute path="/add-project">
             <AddProject />
           </PrivateRoute>

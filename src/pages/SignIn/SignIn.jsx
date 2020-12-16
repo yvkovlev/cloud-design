@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import dictionary from '@utils/dictionary';
-
-import {useAuth} from "../../hooks/use-auth";
+import { useAuth } from '../../hooks/use-auth';
 
 const validate = (values) => {
   const errors = {};

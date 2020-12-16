@@ -21,16 +21,15 @@ const storage = new GridFsStorage({
       resolve(fileInfo);
     });
   },
-});
-
+})
 const upload = multer({ storage });
 
 router
   .get("/projects", async (req, res) => {
-    const userProjects = await Project.find({ user_email: req.body.email}, (err, projects) => {
+    const userProjects = await Project.find({ user_email: req.query.email }, (err, projects) => {
       if (err)
         res.status(500).send({
-          "code": "500",
+          "code": 500,
           "message": "server error"
         });
       else
@@ -42,7 +41,7 @@ router
   .post("/projects", upload.single('archive'), async (req, res) => {
 
     const currentRenderUtility = await RenderUtility.findOne({ id: req.body.render_utility}).lean();
-    const currentPlugin = await Plugin.findOne({ id: req.body.plugin}).lean();
+    const currentPlugin = await Plugin.findOne({ id: req.body.plugin }).lean();
     const currentProgram = await Program.findOne({ id: req.body.program }).lean();
 
     const newProject = new Project({
@@ -70,18 +69,18 @@ router
       newProject.save();
 
       return res.status(200).send({
-        "code": "200",
+        "code": 200,
         "message": ""
       })
     } catch(err) {
       console.log("Project wasn't saved");
       console.log(err);
       return res.send({
-        "code": "500",
+        "code": 500,
         "message": "can't save project"
       })
     }
 
-})
+  })
 
 module.exports = router;

@@ -6,9 +6,9 @@ export const setProjectsData = (data) => ({
   payload: data,
 });
 
-export const getProjectsData = () => async (dispatch) => {
+export const getProjectsData = (email) => async (dispatch) => {
   try {
-    const data = await fetchData('/mocks/projects/get.json');
+    const data = await fetchData(`/api/projects?email=${email}`);
     dispatch(setProjectsData(data));
   } catch (err) {
     console.log(err);

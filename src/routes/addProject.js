@@ -61,7 +61,7 @@ router
 
     let fonts = req.body.fonts;
     for (let i = 0; i < fonts.length; i++) {
-      let currentFont = await Font.findOne({ id: fonts[i] }).lean();
+      let currentFont = Font.findOne({ id: fonts[i] }).lean();
       newProject.fonts.push(currentFont.name);
     }
 

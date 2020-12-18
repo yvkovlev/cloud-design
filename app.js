@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const webpackConfig = require('./webpack.config');
 const Grid = require('gridfs-stream');
 const Font = require('./src/models/Font');
+const Format = require('./src/models/Format');
 const Plugin = require('./src/models/Plugin');
 const Program = require('./src/models/Program');
 const RenderUtility = require('./src/models/RenderUtility');
@@ -47,6 +48,23 @@ app.use("/api", addBalanceRoute);
 
 app.listen(8080, () => {
   console.log('Running local server');
+});
+
+Format.countDocuments({}, (err, count) => {
+  if (!(count > 0)) {
+    const newF = new Format({
+      id: 0,
+      name: "JPG"
+    }).save();
+    const newF2 = new Format({
+      id: 1,
+      name: "PNG"
+    }).save();
+    const newF3 = new Format({
+      id: 2,
+      name: "MP4"
+    }).save();
+  }
 });
 
 Plugin.countDocuments({}, (err, count) => {

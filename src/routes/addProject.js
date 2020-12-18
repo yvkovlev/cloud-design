@@ -3,6 +3,7 @@ const path = require('path');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Font = require('../models/Font');
+const Format = require('../models/Format');
 const Plugin = require('../models/Plugin');
 const Project = require('../models/Project');
 const Program = require('../models/Program');
@@ -40,13 +41,14 @@ router
 
   .post("/projects", upload.single('archive'), async (req, res) => {
 
-    const currentRenderUtility = await RenderUtility.findOne({ id: req.body.render_utility}).lean();
+    const currentRenderUtility = await RenderUtility.findOne({ id: req.body.render_utility }).lean();
     const currentPlugin = await Plugin.findOne({ id: req.body.plugin }).lean();
     const currentProgram = await Program.findOne({ id: req.body.program }).lean();
+    const currentFormat = await Format.findOne({ id: req.body.output_format }).lean();
 
     const newProject = new Project({
       project_name: req.body.project_name,
-      output_format: req.body.output_format,
+      output_format: currentFormat.name,
       output_height: req.body.output_height,
       output_width: req.body.output_width,
       comment: req.body.comment,

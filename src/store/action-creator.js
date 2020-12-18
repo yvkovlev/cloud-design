@@ -6,6 +6,11 @@ export const setProjectsData = (data) => ({
   payload: data,
 });
 
+export const setIsProjectsChangedData = (data) => ({
+  type: Type.SET_IS_PROJECTS_CHANGED,
+  payload: data,
+});
+
 export const getProjectsData = (email) => async (dispatch) => {
   try {
     const data = await fetchData(`/api/projects?email=${email}`);

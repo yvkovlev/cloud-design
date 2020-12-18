@@ -6,17 +6,21 @@ import { isEmpty } from 'lodash';
 import dictionary from '@utils/dictionary';
 import { getProjectStatus } from '@utils/functions';
 
-import { getProjectsData } from '../../store/action-creator';
+import {getProjectsData, setIsProjectsChangedData} from '../../store/action-creator';
 import { useAuth } from '../../hooks/use-auth';
 
 const Projects = () => {
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects);
+  const isProjectsChanged = useSelector((state) => state.isProjectsChanged);
   const auth = useAuth();
 
   useEffect(() => {
     (async () => {
-      await dispatch(getProjectsData(auth.user));
+      if (isProjectsChanged) {
+        await dispatch(getProjectsData(auth.user));
+        dispatch(setIsProjectsChangedData(false));
+      }
     })();
   }, []);
 

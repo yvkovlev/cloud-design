@@ -18,9 +18,9 @@ const BalanceAddingSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    b_id: {
+    u_id: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Balance'
+        ref: 'User'
     }
 });
 

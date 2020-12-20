@@ -39,7 +39,7 @@ const Balance = () => {
       const data = new FormData();
 
       data.append('hours', values.hours);
-      data.append('cost', values.project_name);
+      data.append('cost', values.cost);
       data.append('email', auth.user);
 
       try {
@@ -77,7 +77,7 @@ const Balance = () => {
           <div className="col-md-4">
             <div className="card h-100">
               <div className="card-body">
-                <h2 className="font-weight-bold text-primary">{ `${balance || '0'} HRS` }</h2>
+                <h2 className="font-weight-bold text-primary">{ `${balance ? balance.hours : '0'} HRS` }</h2>
                 <p className="m-0">Текущий баланс рендер-часов</p>
               </div>
             </div>

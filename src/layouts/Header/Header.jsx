@@ -6,7 +6,7 @@ import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Header.module.scss';
 import { useAuth } from '../../hooks/use-auth';
-import {getBalanceData, setIsBalanceChangedData} from '../../store/action-creator';
+import { getBalanceData, setIsBalanceChangedData } from '../../store/action-creator';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ const Header = () => {
                     <span className="text-warning">
                       <FontAwesomeIcon icon={faCoins} />
                     </span>
-                    <span className="ml-2 text-white">{ `${balance || '0'} HRS` }</span>
+                    <span className="ml-2 text-white">{ `${balance ? balance.hours : '0'} HRS` }</span>
                   </Link>
                 </li>
                 <li className="nav-item">

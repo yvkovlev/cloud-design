@@ -6,8 +6,8 @@ const User = require('../models/User');
 
 router
   .get("/balance", async (req, res) => {
-    const user = await User.findOne({ email: req.query.email}).lean();
-    const current = await Balance.find({ u_id: user._id }, (err, balance) => {
+    const user = await User.findOne({ email: req.query.email }).lean();
+    const current = await Balance.findOne({ u_id: user._id }, (err, balance) => {
       if (err)
         res.status(500).send({
           "code": "500",
@@ -19,7 +19,7 @@ router
   })
 
   .post("/balance", async (req, res) => {
-    const user = await User.findOne({ email: req.body.email}).lean();
+    const user = await User.findOne({ email: req.body.email }).lean();
     const currentBalance = await Balance.findOne({ u_id: user._id }).lean();
 
     const newBalanceAdding = new BalanceAdding({

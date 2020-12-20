@@ -2,11 +2,11 @@ const router = require('express').Router();
 const path = require('path');
 const Balance = require('../models/Balance');
 const BalanceAdding = require('../models/BalanceAdding');
-const User = require("../models/User");
+const User = require('../models/User');
 
 router
   .get("/balance", async (req, res) => {
-    const user = await User.findOne({ email: req.body.email}).lean();
+    const user = User.findOne({ email: req.query.email }).lean();
     const current = await Balance.find({ u_id: user._id }, (err, balance) => {
       if (err)
         res.status(500).send({
@@ -14,13 +14,12 @@ router
           "message": "server error"
         })
       else
-        res.status(200).send(balance);
+        res.status(200).send(balance[0]);
     })
   })
 
   .post("/balance", async (req, res) => {
-    const user = User.findOne({});
-    res.json(user);
+    const user = User.findOne({ email: req.body.email }).lean();
     const currentBalance = await Balance.findOne({ u_id: user._id }).lean();
 
     const newBalanceAdding = new BalanceAdding({

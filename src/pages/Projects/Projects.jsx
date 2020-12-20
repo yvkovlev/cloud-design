@@ -47,7 +47,7 @@ const Projects = () => {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th scope="col">ID</th>
+                        <th scope="col">№</th>
                         <th scope="col">Название</th>
                         <th scope="col">Программа</th>
                         <th scope="col">Плагин</th>
@@ -61,9 +61,9 @@ const Projects = () => {
                     </thead>
                     <tbody>
                       {
-                        !isEmpty(projects) && projects.map((item) => (
+                        !isEmpty(projects) && projects.map((item, index) => (
                           <tr key={item._id || 0}>
-                            <td>{ item._id || '-' }</td>
+                            <td>{ index + 1 }</td>
                             <td>{ item.project_name || '-' }</td>
                             <td>{ item.program || '-' }</td>
                             <td>{ item.plugin || '-' }</td>

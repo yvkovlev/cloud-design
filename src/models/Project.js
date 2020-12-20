@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
+const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-designDB', {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+});
+
 const ProjectSchema = mongoose.Schema({
-    _id: Number,
     project_name: {
         type: String,
         required: true
@@ -10,13 +14,27 @@ const ProjectSchema = mongoose.Schema({
     output_height: Number,
     output_width: Number,
     comment: String,
-    link_to_archive: String,
     program: String,
     frame_start: Date,
     frame_end: Date,
-    start_date: Date,
+    start_date: {
+        type: Date,
+        default: Date.now()
+    },
     end_date: Date,
-    status_id: Number
+    user_email: String,
+    status_id: {
+        type: Number,
+        ref: 'Status',
+        default: 2
+    },
+    archive_id: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Status'
+    },
+    render_utility: String,
+    plugin: String,
+    fonts: [{type: String}]
 });
 
-module.exports = mongoose.model('Project', ProjectSchema);
+module.exports = connection.model('Project', ProjectSchema);

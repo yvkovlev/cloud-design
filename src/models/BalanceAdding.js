@@ -1,17 +1,27 @@
 const mongoose = require('mongoose');
 
+const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-designDB', {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+});
+
 const BalanceAddingSchema = mongoose.Schema({
-    _id: Number,
     date: {
         type: Date,
-        required: true
+        default: Date.now()
     },
-    value: {
+    value_hours: {
         type: Number,
         default: 0
     },
-    b_id: Number,
-    u_id: Number
+    value_rubbles: {
+        type: Number,
+        default: 0
+    },
+    u_id: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    }
 });
 
-module.exports = mongoose.model('BalanceAdding', BalanceAddingSchema);
+module.exports = connection.model('BalanceAdding', BalanceAddingSchema);

@@ -1,28 +1,53 @@
 import Type from './action-types';
 import fetchData from '../utils/fetch';
 
-export const fetchDateData = (data) => ({
-  type: Type.FETCH_DATE_DATA,
+export const setProjectsData = (data) => ({
+  type: Type.SET_PROJECTS_DATA,
   payload: data,
 });
 
-export const setDateData = (data) => ({
-  type: Type.SET_DATE,
+export const setIsProjectsChangedData = (data) => ({
+  type: Type.SET_IS_PROJECTS_CHANGED,
   payload: data,
 });
 
-export const getDateData = () => async (dispatch) => {
+export const setBalanceData = (data) => ({
+  type: Type.SET_BALANCE_DATA,
+  payload: data,
+});
+
+export const setIsBalanceChangedData = (data) => ({
+  type: Type.SET_IS_BALANCE_CHANGED,
+  payload: data,
+});
+
+export const setTransactionData = (data) => ({
+  type: Type.SET_TRANSACTION_DATA,
+  payload: data,
+});
+
+export const getProjectsData = (email) => async (dispatch) => {
   try {
-    const data = await fetchData('/mocks/date/get.json');
-    dispatch(fetchDateData(data));
+    const data = await fetchData(`/api/projects?email=${email}`);
+    dispatch(setProjectsData(data));
   } catch (err) {
     console.log(err);
   }
 };
 
-export const updateDateData = (data) => async (dispatch) => {
+export const getBalanceData = (email) => async (dispatch) => {
   try {
-    dispatch(setDateData(data));
+    const data = await fetchData(`/api/balance?email=${email}`);
+    dispatch(setBalanceData(data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getTransactionsData = (email) => async (dispatch) => {
+  try {
+    const data = await fetchData(`/api/transaction-history?email=${email}`);
+    dispatch(setTransactionData(data));
   } catch (err) {
     console.log(err);
   }

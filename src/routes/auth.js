@@ -1,8 +1,16 @@
 const router = require('express').Router();
+const Balance = require('../models/Balance');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 router.post("/sign-up", async (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      res.send({
+        "byeee": "yes."
+      })
+    }
+  });
 
   const anyUser = await User.findOne({ email: req.body.email });
   if (anyUser)
@@ -19,8 +27,15 @@ router.post("/sign-up", async (req, res) => {
       password: hashedPassword,
       name: req.body.name
     });
+
+    const newBalance = new Balance({
+      u_id: newUser._id
+    });
+
     try {
       newUser.save();
+      newBalance.save();
+
       return res.status(200).send({
         "code": 200,
         "message": ""

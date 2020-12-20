@@ -5,12 +5,16 @@ const connection = mongoose.createConnection('mongodb://localhost:27017/cloud-de
     useNewUrlParser: true,
 });
 
-const FontSchema = mongoose.Schema({
+const PluginSchema = mongoose.Schema({
     id: String,
     name: {
         type: String,
         required: true
+    },
+    project_id: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Project'
     }
 });
 
-module.exports = connection.model('Font', FontSchema);
+module.exports = connection.model('Plugin', PluginSchema);

@@ -42,13 +42,13 @@ router
           console.log(err);
           return res.status(500)
             .send({
-              "code": "500",
-              "message": "server error"
+              "code": 500,
+              "message": "Server error"
             })
         } else {
           return res.status(200)
             .send({
-              "code": "200",
+              "code": 200,
               "message": ""
             })
         }

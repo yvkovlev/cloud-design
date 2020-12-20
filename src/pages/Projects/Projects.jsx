@@ -6,17 +6,21 @@ import { isEmpty } from 'lodash';
 import dictionary from '@utils/dictionary';
 import { getProjectStatus } from '@utils/functions';
 
-import { getProjectsData } from '../../store/action-creator';
+import {getProjectsData, setIsProjectsChangedData} from '../../store/action-creator';
 import { useAuth } from '../../hooks/use-auth';
 
 const Projects = () => {
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects);
+  const isProjectsChanged = useSelector((state) => state.isProjectsChanged);
   const auth = useAuth();
 
   useEffect(() => {
     (async () => {
-      await dispatch(getProjectsData(auth.user));
+      if (isProjectsChanged) {
+        await dispatch(getProjectsData(auth.user));
+        dispatch(setIsProjectsChangedData(false));
+      }
     })();
   }, []);
 
@@ -43,7 +47,7 @@ const Projects = () => {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th scope="col">ID</th>
+                        <th scope="col">№</th>
                         <th scope="col">Название</th>
                         <th scope="col">Программа</th>
                         <th scope="col">Плагин</th>
@@ -57,9 +61,9 @@ const Projects = () => {
                     </thead>
                     <tbody>
                       {
-                        !isEmpty(projects) && projects.map((item) => (
+                        !isEmpty(projects) && projects.map((item, index) => (
                           <tr key={item._id || 0}>
-                            <td>{ item._id || '-' }</td>
+                            <td>{ index + 1 }</td>
                             <td>{ item.project_name || '-' }</td>
                             <td>{ item.program || '-' }</td>
                             <td>{ item.plugin || '-' }</td>

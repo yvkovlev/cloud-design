@@ -7,7 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';
 import fetchData from '@utils/fetch';
 import { toast } from 'react-toastify';
-import {useAuth} from "../../hooks/use-auth";
+import { useDispatch } from 'react-redux';
+import { useAuth } from '../../hooks/use-auth';
+import { setIsProjectsChangedData } from '../../store/action-creator';
 
 const validate = (values) => {
   const errors = {};
@@ -51,6 +53,7 @@ const validate = (values) => {
 
 const AddProject = () => {
   const auth = useAuth();
+  const dispatch = useDispatch();
   const [dragNDropText, setDragNDropText] = useState('');
 
   useEffect(() => {
@@ -73,7 +76,7 @@ const AddProject = () => {
     },
     validate,
     onSubmit: async (values, { resetForm }) => {
-      let data = new FormData();
+      const data = new FormData();
 
       data.append('archive', values.archive);
       data.append('project_name', values.project_name);
@@ -93,6 +96,7 @@ const AddProject = () => {
         if (response.code === 200) {
           resetForm();
           toast.success('Проект успешно добавлен!');
+          dispatch(setIsProjectsChangedData(true));
         }
       } catch (error) {
         if (error.response.status === 422) {
@@ -160,10 +164,18 @@ const AddProject = () => {
               <div className="card-body">
                 <h6>Инструкция</h6>
                 <ol>
-                  <li>Загрузите архив проекта в формате <code>.zip</code>.</li>
+                  <li>
+                    Загрузите архив проекта в формате
+                    <code>.zip</code>
+                    .
+                  </li>
                   <li>Уточните параметры рендера.</li>
                   <li>Уточните параметры выходного файла.</li>
-                  <li>Нажмите на кнопку <code>Начать рендеринг</code>.</li>
+                  <li>
+                    Нажмите на кнопку
+                    <code>Начать рендеринг</code>
+                    .
+                  </li>
                   <li>Ожидайте выполнение операции на странице проектов.</li>
                 </ol>
               </div>

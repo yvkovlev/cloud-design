@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import dictionary from '@utils/dictionary';
 
@@ -7,7 +7,12 @@ import { faCoins, faLock } from '@fortawesome/free-solid-svg-icons';
 import { useFormik } from 'formik';
 import fetchData from '@utils/fetch';
 import { toast } from 'react-toastify';
+import { isEmpty}  from 'lodash';
 import { useAuth } from '../../hooks/use-auth';
+import {
+  getTransactionsData,
+  setIsBalanceChangedData,
+} from '../../store/action-creator';
 
 const validate = (values) => {
   const errors = {};
@@ -19,14 +24,31 @@ const validate = (values) => {
   return errors;
 };
 
+const getFormatedDate = (timestamp) => {
+  const parcedDate = Date.parse(timestamp);
+  const date = new Date(parcedDate);
+  return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+};
+
 const Balance = () => {
   const dispatch = useDispatch();
   const balance = useSelector((state) => state.balance);
+  const isBalanceChanged = useSelector((state) => state.isBalanceChanged);
+  const transactionHistory = useSelector((state) => state.transactionHistory);
   const auth = useAuth();
+  const closeModalBtn = useRef();
 
   useEffect(() => {
     document.title = `Баланс – ${dictionary.APP_NAME}`;
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (isBalanceChanged) {
+        await dispatch(getTransactionsData(auth.user));
+      }
+    })();
+  }, [isBalanceChanged]);
 
   const formik = useFormik({
     initialValues: {
@@ -35,18 +57,18 @@ const Balance = () => {
     },
     validate,
     onSubmit: async (values, { resetForm }) => {
-      alert(JSON.stringify(values, null, 2));
-      const data = new FormData();
-
-      data.append('hours', values.hours);
-      data.append('cost', values.cost);
-      data.append('email', auth.user);
+      const data = {
+        ...values,
+        email: auth.user,
+      };
 
       try {
         const response = await fetchData('/api/balance', 'POST', data);
         if (response.code === 200) {
           resetForm();
           toast.success('Баланс успешно пополнен!');
+          dispatch(setIsBalanceChangedData(true));
+          closeModalBtn.current.click();
         }
       } catch (error) {
         toast.error(`Ошибка сервера: ${error.response.status}`);
@@ -118,12 +140,24 @@ const Balance = () => {
                   <table className="table">
                     <thead>
                       <tr>
+                        <th scope="col">№</th>
                         <th scope="col">Дата пополнения</th>
                         <th scope="col">Сумма пополнения, HRS</th>
                         <th scope="col">Стоимость пополнения, RUB</th>
                       </tr>
                     </thead>
-                    <tbody />
+                    <tbody>
+                      {
+                        !isEmpty(transactionHistory) && transactionHistory.map((item, index) => (
+                          <tr key={item._id || 0}>
+                            <td>{ index + 1 }</td>
+                            <td>{ getFormatedDate(item.date) || '-' }</td>
+                            <td>{ item.value_hours || '-' }</td>
+                            <td>{ item.value_rubbles || '-' }</td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -136,7 +170,7 @@ const Balance = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Пополнение баланса</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close" ref={closeModalBtn}>
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>

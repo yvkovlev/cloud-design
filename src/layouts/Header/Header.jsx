@@ -25,7 +25,7 @@ const Header = () => {
         dispatch(setIsBalanceChangedData(false));
       }
     })();
-  }, []);
+  }, [isBalanceChanged]);
 
   return (
     <header className={header}>

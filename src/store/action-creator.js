@@ -26,11 +26,6 @@ export const setTransactionData = (data) => ({
   payload: data,
 });
 
-export const setIsTransactionChangedData = (data) => ({
-  type: Type.SET_IS_TRANSACTION_CHANGED,
-  payload: data,
-});
-
 export const getProjectsData = (email) => async (dispatch) => {
   try {
     const data = await fetchData(`/api/projects?email=${email}`);
@@ -52,7 +47,7 @@ export const getBalanceData = (email) => async (dispatch) => {
 export const getTransactionsData = (email) => async (dispatch) => {
   try {
     const data = await fetchData(`/api/transaction-history?email=${email}`);
-    dispatch(setBalanceData(data));
+    dispatch(setTransactionData(data));
   } catch (err) {
     console.log(err);
   }

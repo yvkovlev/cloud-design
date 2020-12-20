@@ -6,7 +6,7 @@ const User = require('../models/User');
 
 router
   .get("/balance", async (req, res) => {
-    const user = User.findOne({ email: req.query.email }).lean();
+    const user = await User.findOne({ email: req.query.email}).lean();
     const current = await Balance.find({ u_id: user._id }, (err, balance) => {
       if (err)
         res.status(500).send({
@@ -14,16 +14,16 @@ router
           "message": "server error"
         })
       else
-        res.status(200).send(balance[0]);
+        res.status(200).json(balance);
     })
   })
 
   .post("/balance", async (req, res) => {
-    const user = User.findOne({ email: req.body.email }).lean();
+    const user = await User.findOne({ email: req.body.email}).lean();
     const currentBalance = await Balance.findOne({ u_id: user._id }).lean();
 
     const newBalanceAdding = new BalanceAdding({
-      b_id: current._id,
+      u_id: user._id,
       value_hours: req.body.hours,
       value_rubbles: req.body.cost
     });
@@ -33,12 +33,13 @@ router
       { u_id: user._id },
       {
         $set: {
-          hours: current.hours + req.body.hours,
-          rubbles: current.rubbles + req.body.cost
+          hours: currentBalance.hours + parseInt(req.body.hours),
+          rubbles: currentBalance.rubbles + parseInt(req.body.cost)
         }
       },
       (err) => {
         if (err) {
+          console.log(err);
           return res.status(500)
             .send({
               "code": "500",

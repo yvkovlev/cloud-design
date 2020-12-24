@@ -19,6 +19,7 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 import styles from './App.module.scss';
 import Balance from "../../pages/Balance/Balance";
+import Instructions from "../../pages/Instructions/Instructions";
 
 const App = () => {
   const { wrapper } = styles;
@@ -35,6 +36,9 @@ const App = () => {
           <Route path="/sign-up">
             <SignUp />
           </Route>
+          <PrivateRoute path="/instructions">
+            <Instructions />
+          </PrivateRoute>
           <PrivateRoute path="/balance">
             <Balance />
           </PrivateRoute>

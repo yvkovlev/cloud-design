@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import dictionary from '@utils/dictionary';
 
@@ -44,9 +44,7 @@ const Balance = () => {
 
   useEffect(() => {
     (async () => {
-      if (isBalanceChanged) {
-        await dispatch(getTransactionsData(auth.user));
-      }
+      await dispatch(getTransactionsData(auth.user));
     })();
   }, [isBalanceChanged]);
 

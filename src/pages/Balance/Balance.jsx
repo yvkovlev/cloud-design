@@ -7,7 +7,7 @@ import { faCoins, faLock } from '@fortawesome/free-solid-svg-icons';
 import { useFormik } from 'formik';
 import fetchData from '@utils/fetch';
 import { toast } from 'react-toastify';
-import { isEmpty}  from 'lodash';
+import { isEmpty } from 'lodash';
 import { useAuth } from '../../hooks/use-auth';
 import {
   getTransactionsData,
@@ -96,7 +96,7 @@ const Balance = () => {
           </div>
         </div>
         <div className="row mb-3">
-          <div className="col-md-4">
+          <div className="col-md-6 mb-3 mb-md-0">
             <div className="card h-100">
               <div className="card-body">
                 <h2 className="font-weight-bold text-primary">{ `${balance ? balance.hours : '0'} HRS` }</h2>
@@ -104,15 +104,7 @@ const Balance = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="card h-100">
-              <div className="card-body">
-                <h2 className="font-weight-bold text-secondary">117 HRS</h2>
-                <p className="m-0">Израсходовано рендер-часов</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div className="card h-100 bg-primary text-light">
               <div className="card-body">
                 <button type="button" className="btn btn-light mb-3" data-toggle="modal" data-target="#addBalanceModal">

@@ -6,7 +6,8 @@ const User = require("../models/User");
 
 router.get("/transaction-history", async (req, res) => {
   const user = await User.findOne({ email: req.query.email }).lean();
-  const userBalanceAddings = await BalanceAdding.find({ u_id: user._id }, (err, uba) => {
+  const userBalanceAddings = await BalanceAdding.find({ u_id: user._id },
+    null, {sort: { date: -1}}, (err, uba) => {
     if (err)
       res.status(500)
         .send({

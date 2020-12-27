@@ -2,15 +2,9 @@ const router = require('express').Router();
 const Balance = require('../models/Balance');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 router.post("/sign-up", async (req, res) => {
-  User.find({}, (err, users) => {
-    if (err) {
-      res.send({
-        "byeee": "yes."
-      })
-    }
-  });
 
   const anyUser = await User.findOne({ email: req.body.email });
   if (anyUser)
@@ -64,16 +58,24 @@ router.post("/sign-in", async (req, res) => {
       });
 
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass)
-      return res.status(422).send({
-        "code": 422,
-        "message": "Authorization failed"
-      });
+    if (!validPass) {
+      return res.status(422)
+        .send({
+          "code": 422,
+          "message": "Authorization failed"
+        });
+    } else {
+      // add key to config file
+      const token = jwt.sign({
+        email: user.email,
+        userId: user._id
+      }, 'jseohfn', { expiresIn: 60 * 60 });
 
-    res.status(200).send({
-      "code": 200,
-      "message": ""
-    });
+      res.status(200).send({
+        "code": 200,
+        "message": ""
+      });
+    }
 
   } catch(err) {
     console.log(err);

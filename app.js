@@ -12,6 +12,7 @@ const Format = require('./src/models/Format');
 const Plugin = require('./src/models/Plugin');
 const Program = require('./src/models/Program');
 const RenderUtility = require('./src/models/RenderUtility');
+const passport = require('passport');
 
 const app = express();
 
@@ -41,7 +42,10 @@ const addProjectRoute = require('./src/routes/addProject');
 const addBalanceRoute = require('./src/routes/balance');
 const transactionHistoryRoute = require('./src/routes/balanceHistory');
 
-app.use(express.json())
+app.use(express.json());
+
+// app.use(passport.initialize());
+// require('./src/middlewares/passport')(passport);
 
 app.use("/api", authRoute);
 app.use("/api", addProjectRoute);

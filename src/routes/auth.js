@@ -73,7 +73,8 @@ router.post("/sign-in", async (req, res) => {
 
       res.status(200).send({
         "code": 200,
-        "message": ""
+        "message": "",
+        "token": token
       });
     }
 

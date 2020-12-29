@@ -8,6 +8,7 @@ const Plugin = require('../models/Plugin');
 const Project = require('../models/Project');
 const Program = require('../models/Program');
 const RenderUtility = require('../models/RenderUtility');
+const passport = require('../middlewares/passport');
 
 const storage = new GridFsStorage({
   url: 'mongodb://localhost:27017/cloud-designDB',
@@ -26,8 +27,8 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 router
-  .get("/projects", async (req, res) => {
-    const userProjects = await Project.find({ user_email: req.query.email },
+  .get("/projects", passport, async (req, res) => {
+    const userProjects = await Project.find({ user_email: req.user.email },
       null, {sort: { date: -1}}, (err, projects) => {
       if (err)
         res.status(500).send({
@@ -40,7 +41,7 @@ router
 
   })
 
-  .post("/projects", upload.single('archive'), async (req, res) => {
+  .post("/projects", passport, upload.single('archive'), async (req, res) => {
 
     const currentRenderUtility = await RenderUtility.findOne({ id: req.body.render_utility }).lean();
     const currentPlugin = await Plugin.findOne({ id: req.body.plugin }).lean();
@@ -56,7 +57,7 @@ router
       program: currentProgram.name,
       frame_start: req.body.frame_start,
       frame_end: req.body.frame_end,
-      user_email: req.body.email,
+      user_email: req.user.email,
       render_utility: currentRenderUtility.name,
       plugin: currentPlugin.name,
       // archive_id: req.file._id,

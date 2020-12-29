@@ -3,10 +3,11 @@ const path = require('path');
 const Balance = require('../models/Balance');
 const BalanceAdding = require('../models/BalanceAdding');
 const User = require('../models/User');
+const passport = require('../middlewares/passport');
 
 router
-  .get("/balance", async (req, res) => {
-    const user = await User.findOne({ email: req.query.email }).lean();
+  .get("/balance", passport, async (req, res) => {
+    const user = await User.findOne({ email: req.user.email }).lean();
     const current = await Balance.findOne({ u_id: user._id }, (err, balance) => {
       if (err)
         res.status(500).send({
@@ -18,8 +19,8 @@ router
     })
   })
 
-  .post("/balance", async (req, res) => {
-    const user = await User.findOne({ email: req.body.email }).lean();
+  .post("/balance", passport, async (req, res) => {
+    const user = await User.findOne({ email: req.user.email }).lean();
     const currentBalance = await Balance.findOne({ u_id: user._id }).lean();
 
     const newBalanceAdding = new BalanceAdding({

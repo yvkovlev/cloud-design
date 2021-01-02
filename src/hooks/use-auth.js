@@ -11,7 +11,7 @@ const mainAuth = {
       const response = await fetchData('/api/sign-in', 'POST', values);
       if (response.code === 200) {
         mainAuth.isAuthenticated = true;
-        callback();
+        callback(response.token);
       }
     } catch (error) {
       if (error.response.status === 422) {
@@ -33,9 +33,9 @@ function useProvideAuth() {
   const authorizedUser = localStorage.getItem('user');
   const [user, setUser] = useState(authorizedUser || null);
 
-  const signIn = (values) => mainAuth.signIn(values, () => {
-    setUser(values.email);
-    localStorage.setItem('user', values.email);
+  const signIn = (values) => mainAuth.signIn(values, (token) => {
+    setUser(token);
+    localStorage.setItem('user', token);
   });
 
   const signOut = () => mainAuth.signOut(() => {

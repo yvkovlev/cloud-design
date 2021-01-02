@@ -21,7 +21,7 @@ const Header = () => {
   useEffect(() => {
     (async () => {
       if (!balance || isBalanceChanged) {
-        await dispatch(getBalanceData(auth.user));
+        await dispatch(getBalanceData());
         dispatch(setIsBalanceChangedData(false));
       }
     })();

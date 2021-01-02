@@ -7,18 +7,16 @@ import dictionary from '@utils/dictionary';
 import { getProjectStatus } from '@utils/functions';
 
 import {getProjectsData, setIsProjectsChangedData} from '../../store/action-creator';
-import { useAuth } from '../../hooks/use-auth';
 
 const Projects = () => {
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects);
   const isProjectsChanged = useSelector((state) => state.isProjectsChanged);
-  const auth = useAuth();
 
   useEffect(() => {
     (async () => {
       if (isProjectsChanged) {
-        await dispatch(getProjectsData(auth.user));
+        await dispatch(getProjectsData());
         dispatch(setIsProjectsChangedData(false));
       }
     })();

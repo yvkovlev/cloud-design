@@ -8,7 +8,6 @@ import { useFormik } from 'formik';
 import fetchData from '@utils/fetch';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { useAuth } from '../../hooks/use-auth';
 import { setIsProjectsChangedData } from '../../store/action-creator';
 
 const validate = (values) => {
@@ -52,7 +51,6 @@ const validate = (values) => {
 };
 
 const AddProject = () => {
-  const auth = useAuth();
   const dispatch = useDispatch();
   const [dragNDropText, setDragNDropText] = useState('');
 
@@ -89,7 +87,6 @@ const AddProject = () => {
       data.append('output_width', values.output_width);
       data.append('output_height', values.output_height);
       data.append('comment', values.comment);
-      data.append('email', auth.user);
 
       try {
         const response = await fetchData('/api/projects', 'POST', data);

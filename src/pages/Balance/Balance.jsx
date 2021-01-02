@@ -44,7 +44,7 @@ const Balance = () => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(getTransactionsData(auth.user));
+      await dispatch(getTransactionsData());
     })();
   }, [isBalanceChanged]);
 
@@ -57,7 +57,6 @@ const Balance = () => {
     onSubmit: async (values, { resetForm }) => {
       const data = {
         ...values,
-        email: auth.user,
       };
 
       try {

@@ -26,27 +26,27 @@ export const setTransactionData = (data) => ({
   payload: data,
 });
 
-export const getProjectsData = (email) => async (dispatch) => {
+export const getProjectsData = () => async (dispatch) => {
   try {
-    const data = await fetchData(`/api/projects?email=${email}`);
+    const data = await fetchData('/api/projects');
     dispatch(setProjectsData(data));
   } catch (err) {
     console.log(err);
   }
 };
 
-export const getBalanceData = (email) => async (dispatch) => {
+export const getBalanceData = () => async (dispatch) => {
   try {
-    const data = await fetchData(`/api/balance?email=${email}`);
+    const data = await fetchData('/api/balance');
     dispatch(setBalanceData(data));
   } catch (err) {
     console.log(err);
   }
 };
 
-export const getTransactionsData = (email) => async (dispatch) => {
+export const getTransactionsData = () => async (dispatch) => {
   try {
-    const data = await fetchData(`/api/transaction-history?email=${email}`);
+    const data = await fetchData('/api/transaction-history');
     dispatch(setTransactionData(data));
   } catch (err) {
     console.log(err);

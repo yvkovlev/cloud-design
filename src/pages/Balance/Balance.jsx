@@ -27,7 +27,9 @@ const validate = (values) => {
 const getFormatedDate = (timestamp) => {
   const parcedDate = Date.parse(timestamp);
   const date = new Date(parcedDate);
-  return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+  const day = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`;
+  const month = date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
+  return `${day}.${month}.${date.getFullYear()}`;
 };
 
 const Balance = () => {
@@ -44,7 +46,7 @@ const Balance = () => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(getTransactionsData(auth.user));
+      await dispatch(getTransactionsData());
     })();
   }, [isBalanceChanged]);
 
@@ -57,7 +59,6 @@ const Balance = () => {
     onSubmit: async (values, { resetForm }) => {
       const data = {
         ...values,
-        email: auth.user,
       };
 
       try {
@@ -69,7 +70,19 @@ const Balance = () => {
           closeModalBtn.current.click();
         }
       } catch (error) {
-        toast.error(`Ошибка сервера: ${error.response.status}`);
+        switch (error.response.status) {
+          case 401:
+            auth.signOut();
+            toast.error('Авторизация пользователя не пройдена.');
+            break;
+          case 403:
+            auth.signOut();
+            toast.error('Сессия пользователя истекла.');
+            break;
+          default:
+            toast.error(`Ошибка сервера: ${error.response.status}`);
+            break;
+        }
       }
     },
   });

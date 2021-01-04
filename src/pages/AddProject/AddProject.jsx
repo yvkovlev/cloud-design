@@ -8,8 +8,8 @@ import { useFormik } from 'formik';
 import fetchData from '@utils/fetch';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { useAuth } from '../../hooks/use-auth';
 import { setIsProjectsChangedData } from '../../store/action-creator';
+import { useAuth } from '../../hooks/use-auth';
 
 const validate = (values) => {
   const errors = {};
@@ -52,8 +52,8 @@ const validate = (values) => {
 };
 
 const AddProject = () => {
-  const auth = useAuth();
   const dispatch = useDispatch();
+  const auth = useAuth();
   const [dragNDropText, setDragNDropText] = useState('');
 
   useEffect(() => {
@@ -89,7 +89,6 @@ const AddProject = () => {
       data.append('output_width', values.output_width);
       data.append('output_height', values.output_height);
       data.append('comment', values.comment);
-      data.append('email', auth.user);
 
       try {
         const response = await fetchData('/api/projects', 'POST', data);
@@ -99,10 +98,21 @@ const AddProject = () => {
           dispatch(setIsProjectsChangedData(true));
         }
       } catch (error) {
-        if (error.response.status === 422) {
-          toast.error('Недостаточно баланса часов. Пожалуйста, пополните счёт.');
-        } else {
-          toast.error(`Ошибка сервера: ${error.response.status}`);
+        switch (error.response.status) {
+          case 422:
+            toast.error('Недостаточно баланса часов. Пожалуйста, пополните счёт.');
+            break;
+          case 401:
+            auth.signOut();
+            toast.error('Авторизация пользователя не пройдена.');
+            break;
+          case 403:
+            auth.signOut();
+            toast.error('Сессия пользователя истекла.');
+            break;
+          default:
+            toast.error(`Ошибка сервера: ${error.response.status}`);
+            break;
         }
       }
     },

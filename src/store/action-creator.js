@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import Type from './action-types';
 import fetchData from '../utils/fetch';
 
@@ -26,27 +27,36 @@ export const setTransactionData = (data) => ({
   payload: data,
 });
 
-export const getProjectsData = (email) => async (dispatch) => {
+export const resetStore = () => ({
+  type: Type.RESET_STORE,
+});
+
+export const getProjectsData = () => async (dispatch) => {
   try {
-    const data = await fetchData(`/api/projects?email=${email}`);
+    const data = await fetchData('/api/projects');
     dispatch(setProjectsData(data));
   } catch (err) {
     console.log(err);
   }
 };
 
-export const getBalanceData = (email) => async (dispatch) => {
+export const getBalanceData = () => async (dispatch) => {
   try {
-    const data = await fetchData(`/api/balance?email=${email}`);
+    const data = await fetchData('/api/balance');
     dispatch(setBalanceData(data));
   } catch (err) {
-    console.log(err);
+    if (err.response.status === 401 || err.response.status === 403) {
+      toast.error('Сессия пользователя истекла.');
+      document.getElementById('sign-out').click();
+    } else {
+      toast.error(`Ошибка сервера: ${err.response.status}`);
+    }
   }
 };
 
-export const getTransactionsData = (email) => async (dispatch) => {
+export const getTransactionsData = () => async (dispatch) => {
   try {
-    const data = await fetchData(`/api/transaction-history?email=${email}`);
+    const data = await fetchData('/api/transaction-history');
     dispatch(setTransactionData(data));
   } catch (err) {
     console.log(err);

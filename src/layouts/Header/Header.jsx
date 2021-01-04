@@ -20,12 +20,12 @@ const Header = () => {
 
   useEffect(() => {
     (async () => {
-      if (!balance || isBalanceChanged) {
-        await dispatch(getBalanceData(auth.user));
+      if (isBalanceChanged || isBalanceChanged === null) {
+        await dispatch(getBalanceData());
         dispatch(setIsBalanceChangedData(false));
       }
     })();
-  }, [isBalanceChanged]);
+  });
 
   return (
     <header className={header}>
@@ -83,7 +83,7 @@ const Header = () => {
                   <Link className="nav-link" to="/">FAQ</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={() => auth.signOut()}>Выход</a>
+                  <a id="sign-out" className="nav-link" href="#" onClick={() => auth.signOut()}>Выход</a>
                 </li>
               </ul>
             ) : (

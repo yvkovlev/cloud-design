@@ -14,12 +14,12 @@ import Projects from '../../pages/Projects/Projects';
 import AddProject from '../../pages/AddProject/AddProject';
 import SignUp from '../../pages/SignUp/SignUp';
 import SignIn from '../../pages/SignIn/SignIn';
+import Balance from '../../pages/Balance/Balance';
+import Instructions from '../../pages/Instructions/Instructions';
 
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 import styles from './App.module.scss';
-import Balance from "../../pages/Balance/Balance";
-import Instructions from "../../pages/Instructions/Instructions";
 
 const App = () => {
   const { wrapper } = styles;

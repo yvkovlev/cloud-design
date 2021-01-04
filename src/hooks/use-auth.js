@@ -3,6 +3,8 @@ import React, {
 } from 'react';
 import fetchData from '@utils/fetch';
 import { toast } from 'react-toastify';
+import {resetStore, setProjectsData} from "../store/action-creator";
+import {useDispatch} from "react-redux";
 
 const mainAuth = {
   isAuthenticated: false,
@@ -11,7 +13,7 @@ const mainAuth = {
       const response = await fetchData('/api/sign-in', 'POST', values);
       if (response.code === 200) {
         mainAuth.isAuthenticated = true;
-        callback();
+        callback(response.token);
       }
     } catch (error) {
       if (error.response.status === 422) {
@@ -30,17 +32,19 @@ const mainAuth = {
 const authContext = createContext();
 
 function useProvideAuth() {
+  const dispatch = useDispatch();
   const authorizedUser = localStorage.getItem('user');
   const [user, setUser] = useState(authorizedUser || null);
 
-  const signIn = (values) => mainAuth.signIn(values, () => {
-    setUser(values.email);
-    localStorage.setItem('user', values.email);
+  const signIn = (values) => mainAuth.signIn(values, (token) => {
+    setUser(token);
+    localStorage.setItem('user', token);
   });
 
   const signOut = () => mainAuth.signOut(() => {
     setUser(false);
     localStorage.removeItem('user');
+    dispatch(resetStore());
   });
 
   return {

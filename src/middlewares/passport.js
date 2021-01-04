@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
   const token = req.header('Authorization');
-  if (!token) return res.send({
+  if (!token) return res.status(403).send({
     "status": 403,
-    "message": "access denied"
+    "message": "Access denied"
   });
 
   try {
@@ -13,9 +13,9 @@ module.exports = (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    res.send({
+    res.status(401).send({
       "status": 401,
-      "message": "invalid token"
+      "message": "Invalid token"
     })
   }
 }

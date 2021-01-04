@@ -3,6 +3,8 @@ import React, {
 } from 'react';
 import fetchData from '@utils/fetch';
 import { toast } from 'react-toastify';
+import {resetStore, setProjectsData} from "../store/action-creator";
+import {useDispatch} from "react-redux";
 
 const mainAuth = {
   isAuthenticated: false,
@@ -30,6 +32,7 @@ const mainAuth = {
 const authContext = createContext();
 
 function useProvideAuth() {
+  const dispatch = useDispatch();
   const authorizedUser = localStorage.getItem('user');
   const [user, setUser] = useState(authorizedUser || null);
 
@@ -41,6 +44,7 @@ function useProvideAuth() {
   const signOut = () => mainAuth.signOut(() => {
     setUser(false);
     localStorage.removeItem('user');
+    dispatch(resetStore());
   });
 
   return {

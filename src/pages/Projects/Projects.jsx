@@ -15,12 +15,12 @@ const Projects = () => {
 
   useEffect(() => {
     (async () => {
-      if (isProjectsChanged) {
+      if (isProjectsChanged || isProjectsChanged === null) {
         await dispatch(getProjectsData());
         dispatch(setIsProjectsChangedData(false));
       }
     })();
-  }, []);
+  }, [isProjectsChanged]);
 
   useEffect(() => {
     document.title = `Проекты – ${dictionary.APP_NAME}`;

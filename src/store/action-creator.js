@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import Type from './action-types';
 import fetchData from '../utils/fetch';
 
@@ -26,6 +27,10 @@ export const setTransactionData = (data) => ({
   payload: data,
 });
 
+export const resetStore = () => ({
+  type: Type.RESET_STORE,
+});
+
 export const getProjectsData = () => async (dispatch) => {
   try {
     const data = await fetchData('/api/projects');
@@ -40,7 +45,12 @@ export const getBalanceData = () => async (dispatch) => {
     const data = await fetchData('/api/balance');
     dispatch(setBalanceData(data));
   } catch (err) {
-    console.log(err);
+    if (err.response.status === 401 || err.response.status === 403) {
+      toast.error('Сессия пользователя истекла.');
+      document.getElementById('sign-out').click();
+    } else {
+      toast.error(`Ошибка сервера: ${err.response.status}`);
+    }
   }
 };
 
